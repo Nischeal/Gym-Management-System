@@ -10,11 +10,14 @@
     <div class="container">
         <nav class="nav">
             <div class="nav-items">
-                <input type="search" name="search" id="search-bar">
+                <!-- <input type="search" name="search" id="search-bar"> -->
                 <!-- <span class="profile-icon js-drop"> -->
-                    <span class="profile-icon js-drop">
-                        <svg class="icon"><use xlink:href="#icon-user"></use></svg>
-                    </span>
+                    <!-- <div class="profile-area"> -->
+                        <p>Admin</p>   
+                        <span class="profile-icon js-drop">
+                            <svg class="icon"><use xlink:href="#icon-user"></use></svg>
+                        </span>
+                    <!-- </div> -->
             <!-- </span> -->
             <div class="profile-box">
                 <ul class="profile-list">
@@ -34,14 +37,33 @@
             </div>
             <div class="dashlist"> 
                 <ul class="list-items">
-                    <li id="dashitems"> Overview</li>
-                    <li id="dashitems"> Members</li>
-                    <li id="dashitems"> Trainers</li>
-                    <li id="dashitems"> Membership</li>
-                    <li id="dashitems"> Classes & Sessions</li>
-                    <li id="dashitems"> Notification</li>
-                    <li id="dashitems"> Equipments</li>
+                    <li id="dashitems"><span class="profile-icon ">
+                        <svg class="icon"><use xlink:href="#icon-user"></use></svg>
+                    </span> Overview</li>
+                    <li id="dashitems"><span class="profile-icon ">
+                        <svg class="icon"><use xlink:href="#icon-user"></use></svg>
+                    </span> Members</li>
+                    <li id="dashitems"><span class="profile-icon ">
+                        <svg class="icon"><use xlink:href="#icon-user"></use></svg>
+                    </span> Trainers</li>
+                    <li id="dashitems"><span class="profile-icon ">
+                        <svg class="icon"><use xlink:href="#icon-user"></use></svg>
+                    </span> Membership</li>
+                    <li id="dashitems"><span class="profile-icon ">
+                        <svg class="icon"><use xlink:href="#icon-user"></use></svg>
+                    </span> Schedule</li>
+                    <li id="dashitems"><span class="profile-icon ">
+                        <svg class="icon"><use xlink:href="#icon-user"></use></svg>
+                    </span> Notification</li>
+                    <li id="dashitems"> <span class="profile-icon ">
+                        <svg class="icon"><use xlink:href="#icon-user"></use></svg>
+                    </span>Equipments</li>
                 </ul>
+            </div>
+            <div class="sign-out">
+                <li id="dashitems">Sign Out <span class="profile-icon ">
+                    <svg class="icon"><use xlink:href="#icon-user"></use></svg>
+                </span></li>
             </div>
         </section>
 

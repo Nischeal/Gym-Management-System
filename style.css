@@ -24,19 +24,20 @@
     
 }
 .nav{
+    color: var(--text-color);
     grid-area: nav;
     background-color: var(--background-color);
     border: 1px solid black;
-   
-
+    display: grid;
+    justify-content: center;
+    align-items: center;
+    grid-template-columns: 1fr 1fr 0.1fr;
 }
-/* #aside{
-    min-height: 100vh;
-} */
+
 .aside{
     display: grid;
     padding: 5px;
-    grid-template-rows: 0.2fr 1fr;
+    grid-template-rows: 0.2fr 1fr 0.2fr;
     justify-content: center;
     grid-area: aside;
     background-color: var(--background-color);
@@ -70,13 +71,25 @@
 #dashitems{
     color: var(--text-color);
     display: flex;
-    justify-content: center;
+    justify-content: left;
     align-items: center;
     min-height: 35px;
     
     border-bottom: 2px solid white;
     padding: 5px;
     /* margin: 2px; */
+}
+
+.sign-out{
+    display: flex;
+    justify-content: center;
+    align-items: end;
+}
+
+.sign-out #dashitems{
+    border: none;
+    color: var(--text-color);
+    font-size: larger;
 }
 
 
@@ -103,12 +116,7 @@
                              "aside footer";
     }
 }
-nav{
-    display: grid;
-    justify-content: center;
-    align-items: center;
-    grid-template-columns: 1fr 1fr 0.5fr;
-}
+
 .nav-items{
     justify-content: center;
     align-items: center;
@@ -118,6 +126,10 @@ nav{
     grid-template-rows: 1fr;
     grid-template-columns:1fr 0.2fr ;
     grid-column-start: 3;
+}
+.nav-items p{
+    font-size: large;
+    font-weight: bold;
 }
 .profile-icon{
     color: var(--text-color);
