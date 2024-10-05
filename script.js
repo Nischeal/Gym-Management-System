@@ -13,3 +13,17 @@ jsDrop.forEach(drop => { //Fat-arrow function: let func_name = () => { ... }
         }
     });
 });
+
+// animation effect lfor drop down that didnt work
+// function filterFunction(){
+//     var input, filter, dropdown, option, i;
+//     input = document.getElementById(".js-drop");
+//     filter = document.toUpperCase();
+//     dropdown = document.getElementById("");
+//     option = dropdown.getElementsByTagName("a");
+//     for (i= 0; i < option.length; i++){
+//         option[i].style.display
+//         option[i].innerText.toLocaleUpperCase().include(filter)?
+//         "block" : "none";
+//     }
+// }

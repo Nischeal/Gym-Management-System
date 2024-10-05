@@ -6,7 +6,7 @@
 :root{
         --white-color: #ebe5e5;
         --text-color: #e3e3e3;
-        --background-color: #030014;
+        --background-color: #1b253a;
         --primary-color: #c41c1c;
         --secondary-color: #b6a8e6;
         --accent-color: #ff7214;
@@ -15,7 +15,7 @@
     height: 100vh;
     display: grid;
     grid-gap: 0.2rem;
-    grid-template-columns: 0.8fr 3fr;
+    grid-template-columns: 0.5fr 3fr;  /*aside-area */
     grid-template-rows: 0.4fr 2fr 2fr 1fr;
     grid-template-areas: "aside nav nav"
                           "aside main main"
@@ -25,7 +25,7 @@
 }
 .nav{
     grid-area: nav;
-    background-color: var(--secondary-color);
+    background-color: var(--background-color);
     border: 1px solid black;
    
 
@@ -34,11 +34,51 @@
     min-height: 100vh;
 } */
 .aside{
+    display: grid;
+    padding: 5px;
+    grid-template-rows: 0.2fr 1fr;
+    justify-content: center;
     grid-area: aside;
-    background-color: var(--secondary-color);
-    border: 1px solid black;
+    background-color: var(--background-color);
+    border: 1px solid white;
+}
+.Dashlogo{
+    padding: 5px;
+    display: grid;
+    grid-template-columns: 0.1fr 1fr;
+    justify-content: center;
+    /* align-items: center; */
+    font-size: large;
+    
+}
+
+/* dashboard icon css */
+.Dashlogo .profile-icon svg, h1{   
+    padding: 3px;
+    color: var(--text-color);
 
 }
+/* Dashboard lists */
+
+
+.dashlist .list-items{
+    grid-template-rows:repeat(7, 1fr) ;
+    list-style: none;
+    font-size: larger;
+
+}
+#dashitems{
+    color: var(--text-color);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 35px;
+    
+    border-bottom: 2px solid white;
+    padding: 5px;
+    /* margin: 2px; */
+}
+
 
 .main{
     grid-area: main;
@@ -80,6 +120,7 @@ nav{
     grid-column-start: 3;
 }
 .profile-icon{
+    color: var(--text-color);
     margin: 5px;
 }
 #search-bar{
@@ -108,8 +149,8 @@ nav{
     width: 5px;
     height: 5px;
     position: absolute;
-    border-right: 2px solid var(--background-color);
-    border-bottom: 2px solid var(--background-color);
+    border-right: 2px solid var(--text-color);
+    border-bottom: 2px solid var(--text-color);
     transform:rotate(45deg);
   }
 
