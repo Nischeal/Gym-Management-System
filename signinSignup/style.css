@@ -1,0 +1,137 @@
+:root{
+    --white-color: #ebe5e5;
+    --text-color: #e3e3e3;
+    --background-color: #1b253a;
+    --primary-color: #c41c1c;
+    --secondary-color: #b6a8e6;
+    --accent-color: #ff7214;
+    --black-color: #000000;
+}
+
+body{
+    display: flex;
+    margin: 0;
+    padding: 0;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    font-family: 'jost', sans-serif;
+    background:linear-gradient(to top, var(--secondary-color), var(--background-color)) ;
+}
+
+.main{
+    width: 350px;
+    height: 500px;
+    background: var(--background-color);
+    overflow: hidden;
+    border-radius: 10px;
+    box-shadow: 5px 20px 50px 5px var(--black-color);
+}
+
+#chk{
+    display: none;
+}
+
+
+.sighup{
+    position: relative;
+    height: 100%;
+    width: 100%;
+}
+
+label{
+    color: var(--accent-color);
+    font-size: 2em;
+    justify-content: center;
+    display: flex;
+    margin: 60px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: .5s ease-in-out;
+}
+
+input{
+    width: 60%;
+    height: 20px;
+    background: var(--text-color);
+    justify-content: center;
+    display: flex;
+    margin: 20px auto;
+    padding: 10px;
+    border: none;
+    outline: none;
+    border-radius: 5px;
+
+}
+
+button{
+    width: 60%;
+    height: 40px;
+    margin: 10px auto;
+    justify-content: center;
+    display: block;
+    color: var(--black-color);
+    background-color: var(--white-color
+    );
+    font-size: 1em;
+    font-weight: bold;
+    margin-top: 20px;
+    border: none;
+    outline: none;
+    border-radius: 5px;
+    transition: .2s ease-in;
+    cursor: pointer;
+
+}
+
+button:hover{
+    background: var(--secondary-color);
+
+}
+
+.login{
+    margin: 60px auto;
+    height: 460px;
+    background: var(--secondary-color);
+    border-radius: 60% / 10%;
+    transform: translate((-180px));
+    transition: .8s ease-in-out;
+}
+
+.login label{
+    color: var(--secondary-color);
+    transform: scale(.6);
+
+}
+#chk:checked ~ .login{
+    transform: translateY(-320px);
+}
+
+#chk:checked ~ .login label{
+    transform:scale(1);
+
+}
+
+#chk:checked ~ .signup label{
+    transform: scale(.6);
+}
+
+
+#login{
+    color: var(--background-color);
+}
+#signup{
+    color: var(--white-color);
+}
+
+
+
+
+
+
+
+
+
+
+
+
