@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+    <link rel="stylesheet" href="style.css">
+    <title>Memberships Page | AsmrProg</title>
+</head>
+
+<body>
+
+    <!-- Sidebar -->
+    <div class="sidebar">
+        <a href="#" class="logo">
+            <i class='bx bx-code-alt'></i>
+            <div class="logo-name"><span>Asmr</span>Prog</div>
+        </a>
+        <ul class="side-menu">
+            <li><a href="index.html"><i class='bx bxs-dashboard'></i>Dashboard</a></li>
+            <li><a href="users.html"><i class='bx bx-store-alt'></i>Users</a></li>
+            <li><a href="trainers.html"><i class='bx bx-analyse'></i>Trainers</a></li>
+            <li class="active"><a href="memberships.html"><i class='bx bx-message-square-dots'></i>Memberships</a></li>
+            <li><a href="notifications.html"><i class='bx bx-group'></i>Notifications</a></li>
+            <li><a href="settings.html"><i class='bx bx-cog'></i>Settings</a></li>
+        </ul>
+        <ul class="side-menu">
+            <li>
+                <a href="#" class="logout">
+                    <i class='bx bx-log-out-circle'></i>
+                    Logout
+                </a>
+            </li>
+        </ul>
+    </div>
+    <!-- End of Sidebar -->
+
+    <!-- Main Content -->
+    <div class="content">
+        <!-- Navbar -->
+        <nav>
+            <i class='bx bx-menu'></i>
+            <form action="#">
+                <div class="form-input">
+                    <input type="search" placeholder="Search...">
+                    <button class="search-btn" type="submit"><i class='bx bx-search'></i></button>
+                </div>
+            </form>
+            <input type="checkbox" id="theme-toggle" hidden>
+            <label for="theme-toggle" class="theme-toggle"></label>
+            <a href="#" class="notif">
+                <i class='bx bx-bell'></i>
+                <span class="count">5</span>
+            </a>
+            <a href="#" class="profile">
+                <img src="images/logo.png">
+            </a>
+        </nav>
+        <!-- End of Navbar -->
+
+        <main>
+            <div class="header">
+                <div class="left">
+                    <h1>Memberships</h1>
+                    <ul class="breadcrumb">
+                        <li><a href="index.html">Dashboard</a></li>
+                        /
+                        <li><a href="#" class="active">Memberships</a></li>
+                    </ul>
+                </div>
+                <a href="#" class="report add-membership-btn">
+                    <i class='bx bx-plus-circle'></i>
+                    <span>Add Membership</span>
+                </a>
+            </div>
+
+            <div class="bottom-data">
+                <div class="memberships-list">
+                    <div class="header">
+                        <i class='bx bx-list-ul'></i>
+                        <h3>Membership Plans</h3>
+                    </div>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Membership Name</th>
+                                <th>Price</th>
+                                <th>Plans</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Basic Plan</td>
+                                <td>$29.99</td>
+                                <td>
+                                    <ul>
+                                        <li>Access to Gym</li>
+                                        <li>2 Personal Training Sessions</li>
+                                    </ul>
+                                </td>
+                                <td>
+                                    <button class="edit-btn">Edit</button>
+                                    <button class="publish-btn">Publish</button>
+                                    <button class="delete-btn">Delete</button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Premium Plan</td>
+                                <td>$59.99</td>
+                                <td>
+                                    <ul>
+                                        <li>All Basic Features</li>
+                                        <li>Unlimited Personal Training</li>
+                                        <li>Nutrition Guidance</li>
+                                    </ul>
+                                </td>
+                                <td>
+                                    <button class="edit-btn">Edit</button>
+                                    <button class="publish-btn">Publish</button>
+                                    <button class="delete-btn">Delete</button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>VIP Plan</td>
+                                <td>$99.99</td>
+                                <td>
+                                    <ul>
+                                        <li>All Premium Features</li>
+                                        <li>Access to VIP Lounge</li>
+                                        <li>Priority Scheduling</li>
+                                    </ul>
+                                </td>
+                                <td>
+                                    <button class="edit-btn">Edit</button>
+                                    <button class="publish-btn">Publish</button>
+                                    <button class="delete-btn">Delete</button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script src="index.js"></script>
+</body>
+
+</html>
