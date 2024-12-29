@@ -621,3 +621,32 @@ body{
     }
 
 }
+
+/* added */
+.status.active {
+    color: var(--success);
+    font-weight: bold;
+}
+
+.status.inactive {
+    color: var(--danger);
+    font-weight: bold;
+}
+
+.edit-btn, .delete-btn {
+    padding: 8px 12px;
+    margin: 0 4px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.edit-btn {
+    background-color: var(--primary);
+    color: var(--light);
+}
+
+.delete-btn {
+    background-color: var(--danger);
+    color: var(--light);
+}
