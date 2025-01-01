@@ -1,8 +1,8 @@
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap');
 
-:root {
+/* :root {
     --light: #f6f6f9;
-    --primary: #1976D2;
+    --primary: #0a3157;
     --light-primary: #CFE8FF;
     --grey: #eee;
     --dark-grey: #AAAAAA;
@@ -13,6 +13,22 @@
     --light-warning: #FFF2C6;
     --success: #388E3C;
     --light-success: #BBF7D0;
+} */
+
+
+:root {
+    --light: #ffffff; /* Pure white for clean, modern UI */
+    --primary: #007BFF; /* Vibrant blue for action elements */
+    --light-primary: #D0E7FF; /* Softer blue for hover or accents */
+    --grey: #F8F9FA; /* Subtle grey for backgrounds */
+    --dark-grey: #6C757D; /* Medium grey for text and borders */
+    --dark: #343A40; /* Dark grey for strong contrast */
+    --danger: #DC3545; /* Rich red for errors and warnings */
+	--light-danger: #F8D7DA; /* Light red for backgrounds */
+    --warning: #FFC107; /* Bright yellow for warnings */
+    --light-warning: #FFF3CD; /* Pale yellow for accents */
+    --success: #28A745; /* Green for success messages */
+    --light-success: #D4EDDA; /* Light green for success backgrounds */
 }
 
 *{
@@ -649,4 +665,164 @@ body{
 .delete-btn {
     background-color: var(--danger);
     color: var(--light);
+}
+
+.bottom-data {
+    background-color: #fff;
+    border-radius: 8px;
+    padding: 20px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    overflow-x: auto;
+}
+
+/* User List */
+.users-list {
+    width: 100%;
+}
+
+.users-list .header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.users-list table {
+    width: 100%;
+    border-collapse: collapse;
+    text-align: left;
+    font-size: 0.9rem;
+}
+
+.users-list table thead {
+    background-color: #1976D2;
+    color: white;
+}
+
+.users-list table th,
+.users-list table td {
+    padding: 10px;
+    border-bottom: 1px solid #ddd;
+}
+
+.users-list table td img {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+}
+
+.users-list .status {
+    padding: 5px 10px;
+    border-radius: 20px;
+    text-align: center;
+    font-size: 0.85rem;
+    color: white;
+}
+
+.users-list .status.active {
+    background-color: #4CAF50;
+}
+
+.users-list .status.inactive {
+    background-color: #D32F2F;
+}
+
+.users-list button {
+    padding: 5px 10px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.users-list button.edit-btn {
+    background-color: #1976D2;
+    color: white;
+}
+
+.users-list button.delete-btn {
+    background-color: #D32F2F;
+    color: white;
+}
+
+.users-list button:hover {
+    opacity: 0.8;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .sidebar {
+        width: 60px;
+    }
+
+    .sidebar a.logo .logo-name {
+        display: none;
+    }
+
+    .content {
+        margin-left: 60px;
+        padding: 10px;
+    }
+
+    .content nav .form-input input {
+        display: none;
+    }
+
+    main .header {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .users-list table {
+        font-size: 0.8rem;
+    }
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .users-list table {
+        font-size: 0.8rem;
+    }
+
+    .users-list table th,
+    .users-list table td {
+        padding: 8px;
+    }
+
+    .users-list .status {
+        font-size: 0.75rem;
+    }
+}
+
+@media (max-width: 576px) {
+    .users-list table {
+        display: block; /* Forces table to behave as a block element */
+        overflow-x: auto; /* Horizontal scrolling for very small screens */
+    }
+
+    .users-list table thead {
+        display: none; /* Hides table headers for small screens */
+    }
+
+    .users-list table tbody tr {
+        display: block; /* Each row becomes a block */
+        margin-bottom: 10px;
+        border-bottom: 1px solid #ddd;
+    }
+
+    .users-list table td {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 8px;
+        font-size: 0.85rem;
+    }
+
+    .users-list table td:before {
+        content: attr(data-label); /* Adds labels for each cell */
+        font-weight: bold;
+        width: 100px;
+        display: inline-block;
+        color: #555;
+    }
 }

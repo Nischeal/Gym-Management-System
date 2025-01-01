@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -6,7 +7,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
     <link rel="stylesheet" href="style.css">
-    <title>Responsive Dashboard Design #2 | AsmrProg</title>
+    <title>Dashboard</title>
 </head>
 
 <body>
@@ -14,16 +15,16 @@
     <!-- Sidebar -->
     <div class="sidebar">
         <a href="#" class="logo">
-            <i class='bx bx-code-alt'></i>
-            <div class="logo-name"><span>Asmr</span>Prog</div>
+            <i class='bx bx-dumbbell' ></i>
+            <div class="logo-name"><span>Gym</span>Hero</div>
         </a>
         <ul class="side-menu">
-            <li><a href="#"><i class='bx bxs-dashboard'></i>Dashboard</a></li>
-            <li><a href="users.html "><i class='bx bx-store-alt'></i>Users</a></li>
-            <li class="active"><a href="trainers.html"><i class='bx bx-analyse'></i>Trainers</a></li>
+            <li><a href="index.html"><i class='bx bxs-dashboard'></i>Dashboard</a></li>
+            <li class="active"><a href="users.html"><i class='bx bx-store-alt'></i>Users</a></li>
+            <li><a href="trainers.html"><i class='bx bx-analyse'></i>Trainers</a></li>
             <li><a href="memberships.html"><i class='bx bx-message-square-dots'></i>Memberships</a></li>
-            <li><a href="#"><i class='bx bx-group'></i>Notifications</a></li>
-            <li><a href="#"><i class='bx bx-cog'></i>Settings</a></li>
+            <li><a href="notifications.html"><i class='bx bx-group'></i>Notifications</a></li>
+            <li><a href="settings.html"><i class='bx bx-cog'></i>Settings</a></li>
         </ul>
         <ul class="side-menu">
             <li>
@@ -51,155 +52,88 @@
             <label for="theme-toggle" class="theme-toggle"></label>
             <a href="#" class="notif">
                 <i class='bx bx-bell'></i>
-                <span class="count">12</span>
+                <span class="count">8</span>
             </a>
             <a href="#" class="profile">
-                <img src="images/logo.png">
+                <i class='bx bx-user'></i>
             </a>
         </nav>
-
         <!-- End of Navbar -->
 
         <main>
             <div class="header">
                 <div class="left">
-                    <h1>Dashboard</h1>
+                    <h1>Users</h1>
                     <ul class="breadcrumb">
-                        <li><a href="#">
-                                Analytics
-                            </a></li>
+                        <li><a href="index.html">Dashboard</a></li>
                         /
-                        <li><a href="#" class="active">Shop</a></li>
+                        <li><a href="#" class="active">Users</a></li>
                     </ul>
                 </div>
                 <a href="#" class="report">
-                    <i class='bx bx-cloud-download'></i>
-                    <span>Download CSV</span>
+                    <i class='bx bx-user-plus'></i>
+                    <span>Add User</span>
                 </a>
             </div>
 
-            <!-- Insights -->
-            <ul class="insights">
-                <li>
-                    <i class='bx bx-calendar-check'></i>
-                    <span class="info">
-                        <h3>
-                            1,074
-                        </h3>
-                        <p>Paid Order</p>
-                    </span>
-                </li>
-                <li><i class='bx bx-show-alt'></i>
-                    <span class="info">
-                        <h3>
-                            3,944
-                        </h3>
-                        <p>Site Visit</p>
-                    </span>
-                </li>
-                <li><i class='bx bx-line-chart'></i>
-                    <span class="info">
-                        <h3>
-                            14,721
-                        </h3>
-                        <p>Searches</p>
-                    </span>
-                </li>
-                <li><i class='bx bx-dollar-circle'></i>
-                    <span class="info">
-                        <h3>
-                            $6,742
-                        </h3>
-                        <p>Total Sales</p>
-                    </span>
-                </li>
-            </ul>
-            <!-- End of Insights -->
-
             <div class="bottom-data">
-                <div class="orders">
+                <div class="users-list">
                     <div class="header">
-                        <i class='bx bx-receipt'></i>
-                        <h3>Recent Orders</h3>
+                        <i class='bx bx-group'></i>
+                        <h3>User List</h3>
                         <i class='bx bx-filter'></i>
                         <i class='bx bx-search'></i>
                     </div>
                     <table>
                         <thead>
                             <tr>
-                                <th>User</th>
-                                <th>Order Date</th>
+                                <th>Profile</th>
+                                <th>Name</th>
+                                <th>Email</th>
+                                <th>Role</th>
                                 <th>Status</th>
+                                <th>Action</th>
                             </tr>
                         </thead>
                         <tbody>
                             <tr>
+                                <td><img src="" alt="User Profile"></td>
+                                <td>Jane Smith</td>
+                                <td>jane.smith@example.com</td>
+                                <td>Admin</td>
+                                <td><span class="status active">Active</span></td>
                                 <td>
-                                    <img src="images/profile-1.jpg">
-                                    <p>John Doe</p>
+                                    <button class="edit-btn">Edit</button>
+                                    <button class="delete-btn">Delete</button>
                                 </td>
-                                <td>14-08-2023</td>
-                                <td><span class="status completed">Completed</span></td>
                             </tr>
                             <tr>
+                                <td><img src="" alt="User Profile"></td>
+                                <td>Mike Johnson</td>
+                                <td>mike.johnson@example.com</td>
+                                <td>Editor</td>
+                                <td><span class="status inactive">Inactive</span></td>
                                 <td>
-                                    <img src="images/profile-1.jpg">
-                                    <p>John Doe</p>
+                                    <button class="edit-btn">Edit</button>
+                                    <button class="delete-btn">Delete</button>
                                 </td>
-                                <td>14-08-2023</td>
-                                <td><span class="status pending">Pending</span></td>
                             </tr>
                             <tr>
+                                <td><img src="" alt="User Profile"></td>
+                                <td>Emma Wilson</td>
+                                <td>emma.wilson@example.com</td>
+                                <td>Viewer</td>
+                                <td><span class="status active">Active</span></td>
                                 <td>
-                                    <img src="images/profile-1.jpg">
-                                    <p>John Doe</p>
+                                    <button class="edit-btn">Edit</button>
+                                    <button class="delete-btn">Delete</button>
                                 </td>
-                                <td>14-08-2023</td>
-                                <td><span class="status process">Processing</span></td>
                             </tr>
                         </tbody>
                     </table>
                 </div>
-
-                <!-- Reminders -->
-                <div class="reminders">
-                    <div class="header">
-                        <i class='bx bx-note'></i>
-                        <h3>Remiders</h3>
-                        <i class='bx bx-filter'></i>
-                        <i class='bx bx-plus'></i>
-                    </div>
-                    <ul class="task-list">
-                        <li class="completed">
-                            <div class="task-title">
-                                <i class='bx bx-check-circle'></i>
-                                <p>Start Our Meeting</p>
-                            </div>
-                            <i class='bx bx-dots-vertical-rounded'></i>
-                        </li>
-                        <li class="completed">
-                            <div class="task-title">
-                                <i class='bx bx-check-circle'></i>
-                                <p>Analyse Our Site</p>
-                            </div>
-                            <i class='bx bx-dots-vertical-rounded'></i>
-                        </li>
-                        <li class="not-completed">
-                            <div class="task-title">
-                                <i class='bx bx-x-circle'></i>
-                                <p>Play Footbal</p>
-                            </div>
-                            <i class='bx bx-dots-vertical-rounded'></i>
-                        </li>
-                    </ul>
-                </div>
-
-                <!-- End of Reminders-->
-
             </div>
-
         </main>
-
     </div>
 
     <script src="index.js"></script>
