@@ -1,8 +1,8 @@
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap');
 
-/* :root {
+:root {
     --light: #f6f6f9;
-    --primary: #0a3157;
+    --primary: #1976D2;
     --light-primary: #CFE8FF;
     --grey: #eee;
     --dark-grey: #AAAAAA;
@@ -13,22 +13,6 @@
     --light-warning: #FFF2C6;
     --success: #388E3C;
     --light-success: #BBF7D0;
-} */
-
-
-:root {
-    --light: #ffffff; /* Pure white for clean, modern UI */
-    --primary: #007BFF; /* Vibrant blue for action elements */
-    --light-primary: #D0E7FF; /* Softer blue for hover or accents */
-    --grey: #F8F9FA; /* Subtle grey for backgrounds */
-    --dark-grey: #6C757D; /* Medium grey for text and borders */
-    --dark: #343A40; /* Dark grey for strong contrast */
-    --danger: #DC3545; /* Rich red for errors and warnings */
-	--light-danger: #F8D7DA; /* Light red for backgrounds */
-    --warning: #FFC107; /* Bright yellow for warnings */
-    --light-warning: #FFF3CD; /* Pale yellow for accents */
-    --success: #28A745; /* Green for success messages */
-    --light-success: #D4EDDA; /* Light green for success backgrounds */
 }
 
 *{
@@ -37,6 +21,15 @@
     box-sizing: border-box;
     font-family: 'Poppins', sans-serif;
 }
+
+.icon {
+    display: inline-block;
+    width: 1em;
+    height: 1em;
+    stroke-width: 0;
+    stroke: currentColor;
+    fill: currentColor;
+  }
 
 .bx{
     font-size: 1.7rem;
@@ -160,9 +153,10 @@ body{
     border-radius: 48px;
     font-size: 16px;
     color: var(--dark);
-    white-space: nowrap;
-    overflow-x: hidden;
+    /* REMOVE THIS LINE: white-space: nowrap; */
     transition: all 0.3s ease;
+    justify-content: flex-start; /* Important for open sidebar */
+    padding: 0 1rem;
 }
 
 .sidebar .side-menu li.active a{
@@ -170,17 +164,23 @@ body{
 }
 
 .sidebar.close .side-menu li a{
-    width: calc(48px - (4px * 2));
-    transition: all 0.3s ease;
+    justify-content: center; /* Center the icon */
+    padding: 0;
+    flex-direction: column; /* Key change: Stack vertically */
+    align-items: center;
+    min-height: 48px; 
 }
 
 .sidebar .side-menu li a .bx{
-    min-width: calc(60px - ((4px + 6px) * 2));
-    display: flex;
     font-size: 1.6rem;
-    justify-content: center;
+    text-align: center;
+    margin: 0; /* Remove potential margins */
+    display: block; /* Ensure it's a block element */
 }
 
+.sidebar.close .side-menu li a span {
+    display: none;
+}
 .sidebar .side-menu li a.logout{
     color: var(--danger);
 }
