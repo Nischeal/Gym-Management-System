@@ -1,29 +1,46 @@
-let jsDrop = document.querySelectorAll(".js-drop");
+/*=============== SHOW HIDE PASSWORD LOGIN ===============*/
+const passwordAccess = (loginPass, loginEye) =>{
+   const input = document.getElementById(loginPass),
+         iconEye = document.getElementById(loginEye)
 
-//element.addEventListener("event", callback_function())
-jsDrop.forEach(drop => { //Fat-arrow function: let func_name = () => { ... }
-    drop.parentNode.classList.add("drop-wrapper");
-    drop.nextElementSibling.classList.add("dropdown");
-    drop.addEventListener("click", function(e) {
-        e.preventDefault(); //stops page reload and link access or form submit events etc.
-        if(this.parentNode.classList.contains("expand") == true) {
-            this.parentNode.classList.remove('expand');
-        } else {
-            this.parentNode.classList.add('expand');
-        }
-    });
-});
+   iconEye.addEventListener('click', () =>{
+      // Change password to text
+      input.type === 'password' ? input.type = 'text'
+						              : input.type = 'password'
 
-// animation effect lfor drop down that didnt work
-// function filterFunction(){
-//     var input, filter, dropdown, option, i;
-//     input = document.getElementById(".js-drop");
-//     filter = document.toUpperCase();
-//     dropdown = document.getElementById("");
-//     option = dropdown.getElementsByTagName("a");
-//     for (i= 0; i < option.length; i++){
-//         option[i].style.display
-//         option[i].innerText.toLocaleUpperCase().include(filter)?
-//         "block" : "none";
-//     }
+      // Icon change
+      iconEye.classList.toggle('ri-eye-fill')
+      iconEye.classList.toggle('ri-eye-off-fill')
+   })
+}
+// passwordAccess('password','loginPassword')
+
+// /*=============== SHOW HIDE PASSWORD CREATE ACCOUNT ===============*/
+// const passwordRegister = (loginPass, loginEye) =>{
+//    const input = document.getElementById(loginPass),
+//          iconEye = document.getElementById(loginEye)
+
+//    iconEye.addEventListener('click', () =>{
+//       // Change password to text
+//       input.type === 'password' ? input.type = 'text'
+// 						              : input.type = 'password'
+
+//       // Icon change
+//       iconEye.classList.toggle('ri-eye-fill')
+//       iconEye.classList.toggle('ri-eye-off-fill')
+//    })
 // }
+// passwordRegister('passwordCreate','loginPasswordCreate')
+
+/*=============== SHOW HIDE LOGIN & CREATE ACCOUNT ===============*/
+const loginAcessRegister = document.getElementById('loginAccessRegister'),
+      buttonRegister = document.getElementById('loginButtonRegister'),
+      buttonAccess = document.getElementById('loginButtonAccess')
+
+buttonRegister.addEventListener('click', () => {
+   loginAcessRegister.classList.add('active')
+})
+
+buttonAccess.addEventListener('click', () => {
+   loginAcessRegister.classList.remove('active')
+})

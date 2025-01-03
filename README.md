@@ -1,2 +1,1 @@
-# Gym-Management-System
-BCA 4th sem project
+# Responsive-login-and-Registration-Form-
