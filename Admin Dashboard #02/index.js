@@ -54,3 +54,35 @@ toggler.addEventListener('change', function () {
         document.body.classList.remove('dark');
     }
 });
+
+// added
+
+// Get references to the body and the toggle button
+const body = document.body;
+const darkModeToggle = document.getElementById("darkModeToggle");
+
+// Function to apply the theme
+function applyTheme(theme) {
+    if (theme === "dark") {
+        body.classList.add("dark");
+    } else {
+        body.classList.remove("dark");
+    }
+}
+
+// Function to toggle the theme
+function toggleDarkMode() {
+    const isDark = body.classList.contains("dark");
+    const newTheme = isDark ? "light" : "dark";
+
+    // Apply the new theme and save it to localStorage
+    applyTheme(newTheme);
+    localStorage.setItem("theme", newTheme);
+}
+
+// Load the theme from localStorage on page load
+const savedTheme = localStorage.getItem("theme") || "light"; // Default to light theme
+applyTheme(savedTheme);
+
+// Add event listener for the toggle button
+darkModeToggle.addEventListener("click", toggleDarkMode);
