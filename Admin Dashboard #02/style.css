@@ -185,6 +185,10 @@ body{
     color: var(--danger);
 }
 
+.side-menu li{
+    cursor: pointer;
+}
+
 .content{
     position: relative;
     width: calc(100% - 230px);
@@ -675,43 +679,54 @@ body{
     overflow-x: auto;
 }
 
-/* User List */
-.users-list {
+/* Table List */
+
+.table-list {
     width: 100%;
 }
 
-.users-list .header {
+.table-list .header {
     display: flex;
     justify-content: space-between;
     align-items: center;
     margin-bottom: 10px;
 }
 
-.users-list table {
+.table-list table {
     width: 100%;
     border-collapse: collapse;
     text-align: left;
     font-size: 0.9rem;
 }
 
-.users-list table thead {
+.table-list table thead {
     background-color: #1976D2;
     color: white;
 }
 
-.users-list table th,
-.users-list table td {
+thead th:first-child {
+    border-top-left-radius: 10px; 
+    border-bottom-left-radius: 10px; 
+}
+
+thead th:last-child {
+    border-top-right-radius: 10px; 
+    border-bottom-right-radius: 10px; 
+}
+
+.table-list table th,
+.table-list table td {
     padding: 10px;
     border-bottom: 1px solid #ddd;
 }
 
-.users-list table td img {
+.table-list table td img {
     width: 36px;
     height: 36px;
     border-radius: 50%;
 }
 
-.users-list .status {
+.table-list .status {
     padding: 5px 10px;
     border-radius: 20px;
     text-align: center;
@@ -719,15 +734,15 @@ body{
     color: white;
 }
 
-.users-list .status.active {
+.table-list .status.active {
     background-color: #4CAF50;
 }
 
-.users-list .status.inactive {
+.table-list .status.inactive {
     background-color: #D32F2F;
 }
 
-.users-list button {
+.table-list button {
     padding: 5px 10px;
     border: none;
     border-radius: 4px;
@@ -735,19 +750,28 @@ body{
     transition: background-color 0.3s;
 }
 
-.users-list button.edit-btn {
+.table-list button.edit-btn {
     background-color: #1976D2;
     color: white;
 }
 
-.users-list button.delete-btn {
+.table-list button.delete-btn {
     background-color: #D32F2F;
     color: white;
 }
 
-.users-list button:hover {
+.table-list button:hover {
     opacity: 0.8;
 }
+
+.bottom-data {
+    background-color: var(--light); /* Dynamic based on theme */
+    border-radius: 8px;
+    padding: 20px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    overflow-x: auto;
+}
+/* table list end */
 
 /* Responsive Design */
 @media (max-width: 768px) {
