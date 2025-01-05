@@ -54,3 +54,22 @@ toggler.addEventListener('change', function () {
         document.body.classList.remove('dark');
     }
 });
+
+
+// dynamic content switching
+
+function loadContent(sectionId) {
+    // Get all sections
+    const sections = document.querySelectorAll(".content-section");
+  
+    // Hide all sections
+    sections.forEach(section => {
+      section.style.display = "none"; // Hide all
+    });
+  
+    // Show the selected section
+    const activeSection = document.getElementById(sectionId);
+    if (activeSection) {
+      activeSection.style.display = "block";
+    }
+  }

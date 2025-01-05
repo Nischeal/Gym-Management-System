@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
     <link rel="stylesheet" href="style.css">
-    <title>User</title>
+    <title>Vayooooooo</title>
 </head>
 
 <body>
@@ -18,12 +18,12 @@
             <div class="logo-name"><span>Gym</span>Hero</div>
         </a>
         <ul class="side-menu">
-            <li class="active"><a href="index.html"><i class='bx bxs-dashboard'></i>Dashboard</a></li>
-            <li ><a href="users.html"><i class='bx bx-store-alt'></i>Users</a></li>
-            <li><a href="trainers.html"><i class='bx bx-analyse'></i>Trainers</a></li>
-            <li><a href="memberships.html"><i class='bx bx-message-square-dots'></i>Memberships</a></li>
-            <li><a href="notifications.html"><i class='bx bx-group'></i>Notifications</a></li>
-            <li><a href="settings.html"><i class='bx bx-cog'></i>Settings</a></li>
+            <li class="active" onclick="loadContent('dashboard')"><i class='bx bxs-dashboard'></i>Dashboard</li>
+            <li  class="active" onclick="loadContent('users')"><i class='bx bxs-user-rectangle'></i>Users</li>
+            <li  onclick="loadContent('trainer')"><i class='bx bx-cycling'></i>Trainers</li>
+            <li  onclick="loadContent('memberships')"><i class='bx bxs-id-card'></i>Memberships</li>
+            <li  onclick="loadContent('Notifications')"><i class='bx bxs-bell'></i> Notifications</a></li>
+            <li  onclick="loadContent('Settings')"><i class='bx bxs-cog' ></i> Settings</a></li>
         </ul>
         <ul class="side-menu">
             <li>
@@ -59,16 +59,21 @@
         </nav>
         <!-- End of Navbar -->
 
-        <main>
+        <main class="main-content">
+
+        <div id="dashboard" class="content-section" >
+
+            <!-- Dashboard -->
+             
             <div class="header">
                 <div class="left">
                     <h1>Dashboard</h1>
                     <ul class="breadcrumb">
                         <li><a href="#">
-                                Analytics
+                                Dashboard
                             </a></li>
-                        /
-                        <li><a href="#" class="active">Shop</a></li>
+                    
+                        <li><a href="#" class="active">Analytics</a></li>
                     </ul>
                 </div>
                 <a href="#" class="report">
@@ -196,9 +201,257 @@
                 <!-- End of Reminders-->
 
             </div>
+        </div>
+        
+            <!-- users -->
+        <div id="users" class="content-section" style="display: none;">
+            <div class="header">
+                <div class="left">
+                    <h1>Users</h1>
+                    <ul class="breadcrumb">
+                        <li><a href="index.html">Dashboard</a></li>
+                        /
+                        <li><a href="#" class="active">Users</a></li>
+                    </ul>
+                </div>
+                <a href="#" class="report">
+                    <i class='bx bx-user-plus'></i>
+                    <span>Add User</span>
+                </a>
+            </div>
 
-        </main>
-    </div>
+            <div class="bottom-data">
+                <div class="users-list">
+                    <div class="header">
+                        <i class='bx bx-group'></i>
+                        <h3>User List</h3>
+                        <i class='bx bx-filter'></i>
+                        <i class='bx bx-search'></i>
+                    </div>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Profile</th>
+                                <th>Name</th>
+                                <th>Email</th>
+                                <th>Role</th>
+                                <th>Status</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td data-label="Profile"><img src="" alt="User Profile"></td>
+                                <td data-label="Name">Jane Smith</td>
+                                <td data-label="Email">jane.smith@example.com</td>
+                                <td data-label="Role">Admin</td>
+                                <td data-label="Status"><span class="status active">Active</span></td>
+                                <td data-label="Action">
+                                    <button class="edit-btn">Edit</button>
+                                    <button class="delete-btn">Delete</button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td data-label="Profile"><img src="" alt="User Profile"></td>
+                                <td data-label="Name">Mike Johnson</td>
+                                <td data-label="Email">mike.johnson@example.com</td>
+                                <td data-label="Role">Editor</td>
+                                <td data-label="Status"><span class="status inactive">Inactive</span></td>
+                                <td data-label="Action">
+                                    <button class="edit-btn">Edit</button>
+                                    <button class="delete-btn">Delete</button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td data-label="Profile"><img src="" alt="User Profile"></td>
+                                <td data-label="Name">Emma Wilson</td>
+                                <td data-label="Email">emma.wilson@example.com</td>
+                                <td data-label="Role">Viewer</td>
+                                <td data-label="Status"><span class="status active">Active</span></td>
+                                <td data-label="Action">
+                                    <button class="edit-btn">Edit</button>
+                                    <button class="delete-btn">Delete</button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+
+
+
+        </div>
+
+
+        <!-- Trainers -->
+        <div id="trainer" class="content-section" style="display: none;">
+            <div class="header">
+                <div class="left">
+                    <h1>Trainers</h1>
+                    <ul class="breadcrumb">
+                        <li><a href="index.html">Dashboard</a></li>
+                    
+                        <li><a href="#" class="active">Trainers</a></li>
+                    </ul>
+                </div>
+                <a href="#" class="report">
+                    <i class='bx bx-user-plus'></i>
+                    <span>Add Trainer</span>
+                </a>
+            </div>
+
+            <div class="bottom-data">
+                <div class="table-list">
+                    <div class="header">
+                        <i class='bx bx-dumbbell'></i>
+                        <h3>Trainer List</h3>
+                        <i class='bx bx-filter'></i>
+                        <i class='bx bx-search'></i>
+                    </div>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Profile</th>
+                                <th>Name</th>
+                                <th>Email</th>
+                                <th>Specialty</th>
+                                <th>Status</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><img src="images/trainer-1.jpg" alt="Trainer Profile"></td>
+                                <td>John Doe</td>
+                                <td>john.doe@example.com</td>
+                                <td>Strength Training</td>
+                                <td><span class="status active">Active</span></td>
+                                <td>
+                                    <button class="edit-btn">Edit</button>
+                                    <button class="delete-btn">Delete</button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td><img src="images/trainer-2.jpg" alt="Trainer Profile"></td>
+                                <td>Sophia Lee</td>
+                                <td>sophia.lee@example.com</td>
+                                <td>Yoga</td>
+                                <td><span class="status inactive">Inactive</span></td>
+                                <td>
+                                    <button class="edit-btn">Edit</button>
+                                    <button class="delete-btn">Delete</button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td><img src="images/trainer-3.jpg" alt="Trainer Profile"></td>
+                                <td>Mark Taylor</td>
+                                <td>mark.taylor@example.com</td>
+                                <td>Cardio</td>
+                                <td><span class="status active">Active</span></td>
+                                <td>
+                                    <button class="edit-btn">Edit</button>
+                                    <button class="delete-btn">Delete</button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+
+
+
+        </div>
+    
+
+        <!-- membership -->
+        <div id="memberships" class="content-section" style="display: none;">
+        <div class="header">
+            <div class="left">
+                <h1>Memberships</h1>
+                <ul class="breadcrumb">
+                    <li><a href="index.html">Dashboard</a></li>
+                    /
+                    <li><a href="#" class="active">Memberships</a></li>
+                </ul>
+            </div>
+            <a href="#" class="report add-membership-btn">
+                <i class='bx bx-plus-circle'></i>
+                <span>Add Membership</span>
+            </a>
+        </div>
+
+        <div class="bottom-data">
+            <div class="table-list">
+                <div class="header">
+                    <i class='bx bx-list-ul'></i>
+                    <h3>Membership Plans</h3>
+                </div>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Membership Name</th>
+                            <th>Price</th>
+                            <th>Plans</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Basic Plan</td>
+                            <td>$29.99</td>
+                            <td>
+                                <ul>
+                                    <li>Access to Gym</li>
+                                    <li>2 Personal Training Sessions</li>
+                                </ul>
+                            </td>
+                            <td>
+                                <button class="edit-btn">Edit</button>
+                                <button class="publish-btn">Publish</button>
+                                <button class="delete-btn">Delete</button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Premium Plan</td>
+                            <td>$59.99</td>
+                            <td>
+                                <ul>
+                                    <li>All Basic Features</li>
+                                    <li>Unlimited Personal Training</li>
+                                    <li>Nutrition Guidance</li>
+                                </ul>
+                            </td>
+                            <td>
+                                <button class="edit-btn">Edit</button>
+                                <button class="publish-btn">Publish</button>
+                                <button class="delete-btn">Delete</button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>VIP Plan</td>
+                            <td>$99.99</td>
+                            <td>
+                                <ul>
+                                    <li>All Premium Features</li>
+                                    <li>Access to VIP Lounge</li>
+                                    <li>Priority Scheduling</li>
+                                </ul>
+                            </td>
+                            <td>
+                                <button class="edit-btn">Edit</button>
+                                <button class="publish-btn">Publish</button>
+                                <button class="delete-btn">Delete</button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        </div>
+    </main>
+
 
     <script src="index.js"></script>
 </body>
