@@ -1,4 +1,5 @@
 <?php
+session_start();
    if($_SERVER['REQUEST_METHOD'] == 'POST'){
       if (isset($_POST['email']) && !empty($_POST['email'])&& trim($_POST['email'])) {
          $email = trim($_POST['email']);
@@ -10,30 +11,47 @@
          }
       if (isset($_POST['pwd']) && !empty($_POST['pwd'])&& trim($_POST['pwd'])) {
          $pwd = trim($_POST['pwd']);
-         if (!preg_match('/^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/',$pwd)) {
-            $err['pwd'] = 'Enter valid password';
-         }
          }else {
             $err['pwd'] =  'Please enter password'; 
          }
+         $password_hash = md5($pwd);
       
       if (count($error) == 0) {
          try{
             $connection = new mysqli('localhost','root','','gym_management_system'); //oop
-            $sql = "insert into login(login_id,email,password_hash) 
-            values($employee_id,'$first_name','$middle_name','$last_name','$birth_date','$hire_date')";
+            $sql = "insert into login(email,password_hash) values ('$email','$password_hash')";
             $connection->query($sql);
-            if($connection->affected_rows == 1){
-               echo 'Employee inserted successfully';
-            } else {
-               echo 'Empoyee insert failed';
+
+            $stmt = $pdo->prepare("SELECT * FROM LOGIN WHERE email = :email AND password_hash = :password");
+        $stmt->bindParam(':email', $email);
+        $stmt->bindParam(':password', $hashed_password);
+        $stmt->execute();
+
+        if ($stmt->rowCount() == 1) {
+            $user = $stmt->fetch(PDO::FETCH_ASSOC);
+
+            // Store session variables
+            $_SESSION['user_id'] = $user['ref_id'];
+            $_SESSION['role'] = $user['user_role'];
+
+            // Redirect based on user role
+            if ($user['user_role'] == 'USER') {
+                header('Location: user_dashboard.php');
+            } elseif ($user['user_role'] == 'TRAINER') {
+                header('Location: trainer_dashboard.php');
+            } elseif ($user['user_role'] == 'ADMIN') {
+                header('Location: admin_dashboard.php');
             }
-         }catch(Exception $ex){
-            die('Error:' . $ex->getMessage());
-         }
-      }
+            exit;
+        } else {
+            echo "Invalid email or password.";
+        }
+    } catch (PDOException $e) {
+        echo "An error occurred: " . $e->getMessage();
+    }
    
 }
+   }
 
 ?>
 
@@ -154,6 +172,3 @@
       <script src="script.js"></script>
    </body>
 </html>
-
-
-
