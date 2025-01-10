@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
     <link rel="stylesheet" href="style.css">
-    <title>Vayooooooo</title>
+    <title>Admin Dashboard</title>
 </head>
 
 <body>
@@ -18,12 +18,11 @@
             <div class="logo-name"><span>Gym</span>Hero</div>
         </a>
         <ul class="side-menu">
-            <li class="active" onclick="loadContent('dashboard')"><i class='bx bxs-dashboard'></i>Dashboard</li>
-            <li  class="active" onclick="loadContent('users')"><i class='bx bxs-user-rectangle'></i>Users</li>
-            <li  onclick="loadContent('trainer')"><i class='bx bx-cycling'></i>Trainers</li>
-            <li  onclick="loadContent('memberships')"><i class='bx bxs-id-card'></i>Memberships</li>
-            <li  onclick="loadContent('Notifications')"><i class='bx bxs-bell'></i> Notifications</a></li>
-            <li  onclick="loadContent('Settings')"><i class='bx bxs-cog' ></i> Settings</a></li>
+            <li class="active" onclick="loadContent('dashboard')"><span><i class='bx bxs-dashboard'></i>Dashboard</span></li>
+            <li onclick="loadContent('users')"><span><i class='bx bxs-user-rectangle'></i>Users</span></li>
+            <li  onclick="loadContent('trainer')"><span><i class='bx bx-cycling'></i>Trainers</span></li>
+            <li  onclick="loadContent('memberships')"><span><i class='bx bxs-id-card'></i>Memberships</span></li>
+            <li  onclick="loadContent('Settings')"><span><i class='bx bxs-cog' ></i> Settings</span></li>
         </ul>
         <ul class="side-menu">
             <li>
@@ -47,8 +46,7 @@
                     <button class="search-btn" type="submit"><i class='bx bx-search'></i></button>
                 </div>
             </form>
-            <input type="checkbox" id="theme-toggle" hidden>
-            <label for="theme-toggle" class="theme-toggle"></label>
+            
             <a href="#" class="notif">
                 <i class='bx bx-bell'></i>
                 <span class="count">8</span>
@@ -72,28 +70,25 @@
                         <li><a href="#">
                                 Dashboard
                             </a></li>
-                    
+                    /
                         <li><a href="#" class="active">Analytics</a></li>
                     </ul>
                 </div>
-                <a href="#" class="report">
-                    <i class='bx bx-cloud-download'></i>
-                    <span>Download CSV</span>
-                </a>
+                
             </div>
 
             <!-- Insights -->
             <ul class="insights">
                 <li>
-                    <i class='bx bx-calendar-check'></i>
+                    <i class='bx bxs-user-account'></i>
                     <span class="info">
                         <h3>
                             1,074
                         </h3>
-                        <p>Paid Order</p>
+                        <p>Members</p>
                     </span>
                 </li>
-                <li><i class='bx bx-show-alt'></i>
+                <li><i class='bx bxs-show'></i></i>
                     <span class="info">
                         <h3>
                             3,944
@@ -101,7 +96,7 @@
                         <p>Site Visit</p>
                     </span>
                 </li>
-                <li><i class='bx bx-line-chart'></i>
+                <li><i class='bx bxs-file-find'></i>
                     <span class="info">
                         <h3>
                             14,721
@@ -109,7 +104,7 @@
                         <p>Searches</p>
                     </span>
                 </li>
-                <li><i class='bx bx-dollar-circle'></i>
+                <li><i class='bx bxs-dollar-circle'></i></i>
                     <span class="info">
                         <h3>
                             $6,742
@@ -124,30 +119,28 @@
                 <div class="orders">
                     <div class="header">
                         <i class='bx bx-receipt'></i>
-                        <h3>Recent Orders</h3>
-                        <i class='bx bx-filter'></i>
-                        <i class='bx bx-search'></i>
+                        <h3>New Members</h3>
                     </div>
                     <table>
                         <thead>
                             <tr>
                                 <th>User</th>
-                                <th>Order Date</th>
+                                <th>Join Date</th>
                                 <th>Status</th>
                             </tr>
                         </thead>
                         <tbody>
                             <tr>
                                 <td>
-                                    <img src="images/profile-1.jpg">
+                                    <img src="">
                                     <p>John Doe</p>
                                 </td>
                                 <td>14-08-2023</td>
-                                <td><span class="status completed">Completed</span></td>
+                                <td><span class="status active-list">Completed</span></td>
                             </tr>
                             <tr>
                                 <td>
-                                    <img src="images/profile-1.jpg">
+                                    <img src="">
                                     <p>John Doe</p>
                                 </td>
                                 <td>14-08-2023</td>
@@ -155,7 +148,7 @@
                             </tr>
                             <tr>
                                 <td>
-                                    <img src="images/profile-1.jpg">
+                                    <img src="">
                                     <p>John Doe</p>
                                 </td>
                                 <td>14-08-2023</td>
@@ -165,35 +158,33 @@
                     </table>
                 </div>
 
-                <!-- Reminders -->
-                <div class="reminders">
+                <!-- Active Members -->
+                <div class="active-users">
                     <div class="header">
                         <i class='bx bx-note'></i>
-                        <h3>Remiders</h3>
-                        <i class='bx bx-filter'></i>
-                        <i class='bx bx-plus'></i>
+                        <h3>Active Users</h3>
+                        
                     </div>
                     <ul class="task-list">
-                        <li class="completed">
+                        <li class="active-list">
                             <div class="task-title">
-                                <i class='bx bx-check-circle'></i>
-                                <p>Start Our Meeting</p>
+                                <!-- <i class='bx bx-check-circle'></i> -->
+                                <p>User1</p>
                             </div>
-                            <i class='bx bx-dots-vertical-rounded'></i>
+                            
                         </li>
-                        <li class="completed">
+                        <li class="active-list">
                             <div class="task-title">
-                                <i class='bx bx-check-circle'></i>
-                                <p>Analyse Our Site</p>
+                            
+                                <p>User2</p>
                             </div>
-                            <i class='bx bx-dots-vertical-rounded'></i>
+                            
                         </li>
-                        <li class="not-completed">
+                        <li class="not-active-list">
                             <div class="task-title">
-                                <i class='bx bx-x-circle'></i>
-                                <p>Play Footbal</p>
+                                <p>User3</p>
                             </div>
-                            <i class='bx bx-dots-vertical-rounded'></i>
+                            
                         </li>
                     </ul>
                 </div>
@@ -291,7 +282,7 @@
                     <h1>Trainers</h1>
                     <ul class="breadcrumb">
                         <li><a href="index.html">Dashboard</a></li>
-                    
+                    /
                         <li><a href="#" class="active">Trainers</a></li>
                     </ul>
                 </div>

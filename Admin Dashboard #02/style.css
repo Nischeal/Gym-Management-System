@@ -1,10 +1,10 @@
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap');
 
 :root {
-    --light: #f6f6f9;
-    --primary: #1976D2;
+    --light: #ffffff;
+    --primary: #36699c;
     --light-primary: #CFE8FF;
-    --grey: #eee;
+    --grey: #D8D8D8;
     --dark-grey: #AAAAAA;
     --dark: #363949;
     --danger: #D32F2F;
@@ -14,6 +14,7 @@
     --success: #388E3C;
     --light-success: #BBF7D0;
 }
+
 
 *{
     margin: 0;
@@ -31,6 +32,9 @@
     fill: currentColor;
   }
 
+  .insite{
+    border: red 1px solid;
+  }
 .bx{
     font-size: 1.7rem;
 }
@@ -144,6 +148,19 @@ body{
     z-index: -1;
 }
 
+.sidebar .side-menu li span{
+    width: 100%;
+    height: 100%;
+    background: var(--light);
+    display: flex;
+    align-items: center;
+    border-radius: 48px;
+    font-size: 16px;
+    color: var(--dark);
+    transition: all 0.3s ease;
+    justify-content: flex-start; /* Important for open sidebar */
+    padding: 0 1rem;
+}
 .sidebar .side-menu li a{
     width: 100%;
     height: 100%;
@@ -153,20 +170,19 @@ body{
     border-radius: 48px;
     font-size: 16px;
     color: var(--dark);
-    /* REMOVE THIS LINE: white-space: nowrap; */
     transition: all 0.3s ease;
     justify-content: flex-start; /* Important for open sidebar */
     padding: 0 1rem;
 }
 
-.sidebar .side-menu li.active a{
+.sidebar .side-menu li.active span{
     color: var(--success);
 }
 
 .sidebar.close .side-menu li a{
     justify-content: center; /* Center the icon */
     padding: 0;
-    flex-direction: column; /* Key change: Stack vertically */
+    flex-direction: column; 
     align-items: center;
     min-height: 48px; 
 }
@@ -174,7 +190,7 @@ body{
 .sidebar .side-menu li a .bx{
     font-size: 1.6rem;
     text-align: center;
-    margin: 0; /* Remove potential margins */
+    margin: 0; 
     display: block; /* Ensure it's a block element */
 }
 
@@ -415,18 +431,18 @@ body{
 }
 
 .content main .insights li:nth-child(2) .bx{
-    background: var(--light-warning);
-    color: var(--warning);
+    background: var(--light-primary);
+    color: var(--primary);
 }
 
 .content main .insights li:nth-child(3) .bx{
-    background: var(--light-success);
-    color: var(--success);
+    background: var(--light-primary);
+    color: var(--primary);
 }
 
 .content main .insights li:nth-child(4) .bx{
-    background: var(--light-danger);
-    color: var(--danger);
+    background: var(--light-primary);
+    color: var(--primary);
 }
 
 .content main .insights li .info h3{
@@ -524,7 +540,7 @@ body{
     font-weight: 700;
 }
 
-.content main .bottom-data .orders table tr td .status.completed{
+.content main .bottom-data .orders table tr td .status.active-list{
     background: var(--success);
 }
 
@@ -536,48 +552,40 @@ body{
     background: var(--warning);
 }
 
-.content main .bottom-data .reminders{
+.content main .bottom-data .active-users{
     flex-grow: 1;
     flex-basis: 300px;
 }
 
-.content main .bottom-data .reminders .task-list{
+.content main .bottom-data .active-users .task-list{
     width: 100%;
 }
 
-.content main .bottom-data .reminders .task-list li{
+.content main .bottom-data .active-users .task-list li{
     width: 100%;
     margin-bottom: 16px;
     background: var(--grey);
-    padding: 14px 10px;
+    padding: 10px;
     border-radius: 10px;
     display: flex;
     align-items: center;
     justify-content: space-between;
 }
 
-.content main .bottom-data .reminders .task-list li .task-title{
+.content main .bottom-data .active-users .task-list li .task-title{
     display: flex;
     align-items: center;
 }
 
-.content main .bottom-data .reminders .task-list li .task-title p{
+.content main .bottom-data .active-users .task-list li .task-title p{
     margin-left: 6px;
 }
 
-.content main .bottom-data .reminders .task-list li .bx{
+.content main .bottom-data .active-users .task-list li .bx{
   cursor: pointer;  
 }
 
-.content main .bottom-data .reminders .task-list li.completed{
-    border-left: 10px solid var(--success);
-}
-
-.content main .bottom-data .reminders .task-list li.not-completed{
-    border-left: 10px solid var(--danger);
-}
-
-.content main .bottom-data .reminders .task-list li:last-child{
+.content main .bottom-data .active-users .task-list li:last-child{
    margin-bottom: 0;
 }
 
@@ -636,7 +644,7 @@ body{
         min-width: 340px;
     }
 
-    .content main .bottom-data .reminders .task-list{
+    .content main .bottom-data .active-users .task-list{
         min-width: 340px;
     }
 
@@ -700,7 +708,7 @@ body{
 }
 
 .table-list table thead {
-    background-color: #1976D2;
+    background-color:var(--primary);
     color: white;
 }
 
@@ -731,7 +739,7 @@ thead th:last-child {
     border-radius: 20px;
     text-align: center;
     font-size: 0.85rem;
-    color: white;
+    color: var(--text-light);
 }
 
 .table-list .status.active {

@@ -1,14 +1,22 @@
-const sideLinks = document.querySelectorAll('.sidebar .side-menu li a:not(.logout)');
+const sideLinks = document.querySelectorAll('.sidebar .side-menu li:not(.logout)'); // Exclude logout
 
 sideLinks.forEach(item => {
-    const li = item.parentElement;
     item.addEventListener('click', () => {
-        sideLinks.forEach(i => {
-            i.parentElement.classList.remove('active');
-        })
-        li.classList.add('active');
-    })
+        sideLinks.forEach(i => i.classList.remove('active'));
+        item.classList.add('active');
+
+        // Extract sectionId safely (handling cases where onclick might be missing)
+        const onclickAttr = item.getAttribute('onclick');
+        if (onclickAttr) {
+            const match = onclickAttr.match(/'([^']+)'/);
+            if (match) {
+                const sectionId = match[1];
+                loadContent(sectionId);
+            }
+        }
+    });
 });
+
 
 const menuBar = document.querySelector('.content nav .bx.bx-menu');
 const sideBar = document.querySelector('.sidebar');
@@ -45,18 +53,7 @@ window.addEventListener('resize', () => {
     }
 });
 
-const toggler = document.getElementById('theme-toggle');
-
-toggler.addEventListener('change', function () {
-    if (this.checked) {
-        document.body.classList.add('dark');
-    } else {
-        document.body.classList.remove('dark');
-    }
-});
-
-
-// dynamic content switching
+// context switching
 
 function loadContent(sectionId) {
     // Get all sections
@@ -73,3 +70,4 @@ function loadContent(sectionId) {
       activeSection.style.display = "block";
     }
   }
+  
