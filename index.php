@@ -18,8 +18,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 FROM (
                     SELECT u_id AS id, 'USER' AS role, email, hashpassword FROM User
                     UNION ALL
-                    SELECT t_id AS id, 'TRAINER' AS role, email, hashpassword FROM Trainer
-                    UNION ALL
                     SELECT a_id AS id, 'ADMIN' AS role, email, hashpassword FROM Admin
                 ) AS all_users
                 WHERE email = :email AND hashpassword = :password
@@ -28,8 +26,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $user = $stmt->fetch(PDO::FETCH_ASSOC);
 
             if ($user) {
-                $_SESSION['user_id'] = $user['id'];
-                $_SESSION['role'] = $user['role'];
+                $_SESSION['email'] = $user['email'];
+                $_SESSION['password'] = $user['hashpassword'];
                 header("Location: dashboard/{$user['role']}_dashboard.php");
                 exit;
             } else {
