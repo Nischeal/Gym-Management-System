@@ -123,7 +123,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                <input type="submit" class="login__button" value="Login">
             </form>
 
-            <div class="login__social">
+            <!-- <div class="login__social">
                <p class="login__social-title">Or login with</p>
 
                <div class="login__social-links">
@@ -139,7 +139,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                      <i class='bx bxl-github'></i>
                   </a>
                </div>
-            </div>
+            </div> -->
 
             <p class="login__switch">
                Don't have an account?
