@@ -18,8 +18,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 FROM (
                     SELECT u_id AS id, 'USER' AS role, email, hashpassword FROM User
                     UNION ALL
-                    SELECT t_id AS id, 'TRAINER' AS role, email, hashpassword FROM Trainer
-                    UNION ALL
                     SELECT a_id AS id, 'ADMIN' AS role, email, hashpassword FROM Admin
                 ) AS all_users
                 WHERE email = :email AND hashpassword = :password
@@ -28,9 +26,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $user = $stmt->fetch(PDO::FETCH_ASSOC);
 
             if ($user) {
-                $_SESSION['user_id'] = $user['id'];
-                $_SESSION['role'] = $user['role'];
-                header("Location: dashboard/{$user['role']}_dashboard.php");
+                $_SESSION['email'] = $user['email'];
+                $_SESSION['password'] = $user['hashpassword'];
+                header("Location: noname.html");
                 exit;
             } else {
                 $errors['login'] = 'Invalid email or password.';
@@ -46,9 +44,19 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $email = trim($_POST['remail']);
         $password = trim($_POST['rpassword']);
 
+        // Validation rules
         if (empty($name) || empty($surname) || empty($phone) || empty($email) || empty($password)) {
             $errors['register'] = 'All fields are required.';
+        } elseif (strlen($password) < 8) {
+            $errors['register'] = 'Password must be at least 8 characters long.';
+        } elseif (!preg_match("/^[a-zA-Z\s]+$/", $name)) {
+            $errors['register'] = 'Name must not contain numbers.';
+        } elseif (!preg_match("/^[a-zA-Z\s]+$/", $surname)) {
+            $errors['register'] = 'Surname must not contain numbers.';
+        } elseif (!preg_match("/^9\d{9}$/", $phone)) {
+            $errors['register'] = 'Phone number must be exactly 10 digits and start with 9.';
         } else {
+            // If all validations pass, proceed to register the user
             $password_hash = md5($password); // Replace with password_hash in production
             $stmt = $pdo->prepare("
                 INSERT INTO User (first_name, last_name, ph_no, email, hashpassword)
@@ -68,21 +76,27 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 }
 ?>
 
-
 <!DOCTYPE html>
 <html lang="en">
 
 <head>
    <meta charset="UTF-8">
    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
    <link rel="stylesheet" href="styles.css">
-
    <title>Responsive login & Registration Form</title>
 </head>
 
 <body>
+
+   <!-- Error Messages -->
+   <?php if (!empty($errors)): ?>
+       <div class="error-messages">
+           <?php foreach ($errors as $error): ?>
+               <p class="error"><?php echo htmlspecialchars($error); ?></p>
+           <?php endforeach; ?>
+       </div>
+   <?php endif; ?>
 
    <!-- LOGIN -->
    <div class="login container grid" id="loginAccessRegister">
@@ -90,7 +104,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
          <h1 class="login__title">Log in.</h1>
 
          <div class="login__area">
-            <form action="" class="login__form">
+         <form action="" method="POST" class="login__form">
+               <input type="hidden" name="action" value="login">
                <div class="login__content grid">
                   <div class="login__box">
                      <input type="email" id="email" required placeholder=" " class="login__input" name="email">
@@ -101,12 +116,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                      <input type="password" id="password" required placeholder=" " class="login__input" name="pwd">
                      <label for="password" class="login__label">Password</label>
                   </div>
-
                </div>
 
                <a href="#" class="login__forgot">Forgot your password?</a>
 
-               <button type="submit" class="login__button">Login</button>
+               <input type="submit" class="login__button" value="Login">
             </form>
 
             <div class="login__social">
@@ -139,7 +153,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
          <h1 class="login__title">Register!</h1>
 
          <div class="login__area">
-            <form action="" class="login__form">
+            <form action="" method="POST" class="login__form">
+               <input type="hidden" name="action" value="register">
                <div class="login__content grid">
                   <div class="login__group grid">
                      <div class="login__box">
@@ -155,8 +170,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
                   <div class="login__box">
                      <input type="number" id="phone" required placeholder=" " class="login__input" name="rphone">
-                     <label for="Phone no." class="login__label">Phone no.</label>
-
+                     <label for="phone" class="login__label">Phone no.</label>
                   </div>
 
                   <div class="login__box">
@@ -165,15 +179,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                   </div>
 
                   <div class="login__box">
-                     <input type="password" id="passwordCreate" required placeholder=" " class="login__input"
-                        name="rpassword">
+                     <input type="password" id="passwordCreate" required placeholder=" " class="login__input" name="rpassword">
                      <label for="passwordCreate" class="login__label">Password</label>
-
-
                   </div>
                </div>
 
-               <button type="submit" class="login__button">Create account</button>
+               <input type="submit" class="login__button" value="Create account">
             </form>
 
             <p class="login__switch">
