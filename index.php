@@ -17,13 +17,20 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 SELECT * 
                 FROM (
                     SELECT u_id AS id, 'USER' AS role, email, hashpassword FROM User
-                    UNION ALL
-                    SELECT a_id AS id, 'ADMIN' AS role, email, hashpassword FROM Admin
                 ) AS all_users
                 WHERE email = :email AND hashpassword = :password
             ");
+            $atmt = $pdo->prepare("
+                SELECT * 
+                FROM (
+                    SELECT a_id AS id, 'ADMIN' AS role, email, hashpassword FROM Admin
+                ) AS all_admin
+                WHERE email = :email AND hashpassword = :password
+            ");
             $stmt->execute(['email' => $email, 'password' => $password_hash]);
+            $atmt->execute(['email' => $email, 'password' => $password_hash]);
             $user = $stmt->fetch(PDO::FETCH_ASSOC);
+            $admin = $atmt->fetch(PDO::FETCH_ASSOC);
 
             if ($user) {
                 $_SESSION['email'] = $user['email'];
@@ -33,7 +40,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             } else if($admin){
                 $_SESSION['email'] = $admin['email'];
                 $_SESSION['password'] = $admin['hashpassword'];
-                header("Location: Admin Dashboard #02\index.html");
+                header("Location: AdminDashboard/index.html");
                 exit;
             } 
             else {
