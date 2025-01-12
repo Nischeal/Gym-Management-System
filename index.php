@@ -33,7 +33,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             } else if($admin){
                 $_SESSION['email'] = $admin['email'];
                 $_SESSION['password'] = $admin['hashpassword'];
-                header("Location: index.html");
+                header("Location: Admin Dashboard #02\index.html");
                 exit;
             } 
             else {
