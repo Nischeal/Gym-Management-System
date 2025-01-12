@@ -30,7 +30,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 $_SESSION['password'] = $user['hashpassword'];
                 header("Location: noname.html");
                 exit;
-            } else {
+            } else if($admin){
+                $_SESSION['email'] = $admin['email'];
+                $_SESSION['password'] = $admin['hashpassword'];
+                header("Location: index.html");
+                exit;
+            } 
+            else {
                 $errors['login'] = 'Invalid email or password.';
             }
         }
