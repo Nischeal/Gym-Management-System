@@ -10,6 +10,9 @@ $response = ['success' => false, 'errors' => []];
 // Check if the form is submitted
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     if (isset($_POST['register'])) {
+        // Debugging: Log that the register form was submitted
+        error_log("Register form submitted");
+
         // Validate Full Name
         $fullname = trim($_POST['fullname']);
         if (empty($fullname)) {
@@ -62,6 +65,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $response['errors'] = $errors;
         }
     } elseif (isset($_POST['login'])) {
+        // Debugging: Log that the login form was submitted
+        error_log("Login form submitted");
+
         // Validate Login Email
         $login_email = trim($_POST['login_email']);
         if (empty($login_email)) {
@@ -95,13 +101,15 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         }
     }
 
-//     // Return JSON response
-//     header('Content-Type: application/json');
-//     echo json_encode($response);
-//     exit;
- }
-?>
+    // Debugging: Log the response being sent back
+    // error_log("Response: " . json_encode($response));
 
+    // Return JSON response
+    // header('Content-Type: application/json');
+    // echo json_encode($response);
+    // exit;
+}
+?>
 
 <!DOCTYPE html>
 <html lang="en">
@@ -171,7 +179,34 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 <p class='success'><?php echo $_SESSION['success']; unset($_SESSION['success']); ?></p>
             <?php endif; ?>
         </form>
-    </div>
-    <script src="script.js"></script>
+   
+
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const loginForm = document.getElementById('loginForm');
+            const registerForm = document.getElementById('registerForm');
+            const showRegisterLink = document.getElementById('showRegister');
+            const showLoginLink = document.getElementById('showLogin');
+
+            // Switch to Register form
+            showRegisterLink.addEventListener('click', function(e) {
+                e.preventDefault();
+                loginForm.style.display = 'none';
+                registerForm.style.display = 'block';
+            });
+
+            // Switch to Login form
+            showLoginLink.addEventListener('click', function(e) {
+                e.preventDefault();
+                registerForm.style.display = 'none';
+                loginForm.style.display = 'block';
+            });
+
+           
+        });
+
+        
+    </script>
 </body>
 </html>
