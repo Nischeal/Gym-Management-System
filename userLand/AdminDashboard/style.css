@@ -21,6 +21,7 @@
     padding: 0;
     box-sizing: border-box;
     font-family: 'Poppins', sans-serif;
+    height: 100vh;
 }
 
 .icon {
@@ -60,6 +61,7 @@ body.dark{
 body{
     background: var(--grey);
     overflow-x: hidden;
+    height: 100vh;
 }
 
 .sidebar{
@@ -205,6 +207,9 @@ body{
     cursor: pointer;
 }
 
+.main-content{
+    height: 100vh;
+}
 .content{
     position: relative;
     width: calc(100% - 230px);
@@ -347,6 +352,7 @@ body{
 .content main{
     width: 100%;
     padding: 36px 24px;
+    
     max-height: calc(100vh - 56px);
 }
 
@@ -589,7 +595,7 @@ body{
    margin-bottom: 0;
 }
 
-@media screen and (max-width: 768px) {
+/* @media screen and (max-width: 768px) {
     .sidebar{
         width: 200px;
     }
@@ -599,9 +605,9 @@ body{
         left: 200px;
     }
 
-}
+} */
 
-@media screen and (max-width: 576px) {
+/* @media screen and (max-width: 576px) {
     
     .content nav form .form-input input{
         display: none;
@@ -648,7 +654,7 @@ body{
         min-width: 340px;
     }
 
-}
+} */
 
 /* added */
 .status.active {
@@ -779,82 +785,6 @@ thead th:last-child {
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
     overflow-x: auto;
 }
-/* table list end */
 
-/* Responsive Design */
-@media (max-width: 768px) {
-    .sidebar {
-        width: 60px;
-    }
 
-    .sidebar a.logo .logo-name {
-        display: none;
-    }
 
-    .content {
-        margin-left: 60px;
-        padding: 10px;
-    }
-
-    .content nav .form-input input {
-        display: none;
-    }
-
-    main .header {
-        flex-direction: column;
-        align-items: flex-start;
-    }
-
-    .users-list table {
-        font-size: 0.8rem;
-    }
-}
-
-/* Responsive Design */
-@media (max-width: 768px) {
-    .users-list table {
-        font-size: 0.8rem;
-    }
-
-    .users-list table th,
-    .users-list table td {
-        padding: 8px;
-    }
-
-    .users-list .status {
-        font-size: 0.75rem;
-    }
-}
-
-@media (max-width: 576px) {
-    .users-list table {
-        display: block; /* Forces table to behave as a block element */
-        overflow-x: auto; /* Horizontal scrolling for very small screens */
-    }
-
-    .users-list table thead {
-        display: none; /* Hides table headers for small screens */
-    }
-
-    .users-list table tbody tr {
-        display: block; /* Each row becomes a block */
-        margin-bottom: 10px;
-        border-bottom: 1px solid #ddd;
-    }
-
-    .users-list table td {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        padding: 8px;
-        font-size: 0.85rem;
-    }
-
-    .users-list table td:before {
-        content: attr(data-label); /* Adds labels for each cell */
-        font-weight: bold;
-        width: 100px;
-        display: inline-block;
-        color: #555;
-    }
-}

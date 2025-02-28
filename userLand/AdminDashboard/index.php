@@ -1,5 +1,12 @@
 <?php
+session_start();
 include 'db.php';
+if(!isset($_SESSION['log'])){
+    echo "<script>alert('Login Required')</script>";
+  
+    echo '<meta http-equiv = "refresh" content = "0; url = ../Form/login.php"/>';
+}
+
 
 // Fetch data
 $users = fetchUsers($pdo);
@@ -30,11 +37,11 @@ $dashboardStats = fetchDashboardStats($pdo);
             <li onclick="loadContent('users')"><span><i class='bx bxs-user-rectangle'></i>Users</span></li>
             <li  onclick="loadContent('trainer')"><span><i class='bx bx-cycling'></i>Trainers</span></li>
             <li  onclick="loadContent('memberships')"><span><i class='bx bxs-id-card'></i>Memberships</span></li>
-            <li  onclick="loadContent('Settings')"><span><i class='bx bxs-cog' ></i> Settings</span></li>
+            
         </ul>
         <ul class="side-menu">
             <li>
-                <a href="#" class="logout">
+                <a href="logout.php" class="logout">
                     <i class='bx bx-log-out-circle'></i>
                     Logout
                 </a>
@@ -46,23 +53,9 @@ $dashboardStats = fetchDashboardStats($pdo);
     <!-- Main Content -->
     <div class="content">
         <!-- Navbar -->
-        <nav>
-            <i class='bx bx-menu'></i>
-            <form action="#">
-                <div class="form-input">
-                    <input type="search" placeholder="Search...">
-                    <button class="search-btn" type="submit"><i class='bx bx-search'></i></button>
-                </div>
-            </form>
+        <!-- <nav>
             
-            <a href="#" class="notif">
-                <i class='bx bx-bell'></i>
-                <span class="count">8</span>
-            </a>
-            <a href="#" class="profile">
-                <i class='bx bx-user'></i>
-            </a>
-        </nav>
+        </nav> -->
         <!-- End of Navbar -->
 
         <main class="main-content">
@@ -89,23 +82,23 @@ $dashboardStats = fetchDashboardStats($pdo);
                         </span>
                     </li>
                     <li>
-                        <i class='bx bxs-show'></i>
+                        <i class='bx bx-cycling'></i>
                         <span class="info">
-                            <h3><?php echo $dashboardStats['site_visits']; ?></h3>
-                            <p>Site Visits</p>
+                            <h3><?php echo $dashboardStats['t_id']; ?></h3>
+                            <p>Trainers</p>
                         </span>
                     </li>
                     <li>
-                        <i class='bx bxs-file-find'></i>
+                    <i class='bx bxs-user-check'></i>
                         <span class="info">
-                            <h3><?php echo $dashboardStats['searches']; ?></h3>
-                            <p>Searches</p>
+                            <h3><?php echo $dashboardStats['eid']; ?></h3>
+                            <p>Enrollments</p>
                         </span>
                     </li>
                     <li>
-                        <i class='bx bxs-dollar-circle'></i>
+                    <i class='bx bx-money'></i>
                         <span class="info">
-                            <h3>$<?php echo $dashboardStats['total_sales']; ?></h3>
+                            <h3>Rs.<?php echo intval($dashboardStats['amount']); ?></h3>
                             <p>Total Sales</p>
                         </span>
                     </li>
@@ -123,20 +116,21 @@ $dashboardStats = fetchDashboardStats($pdo);
                                 <tr>
                                     <th>User</th>
                                     <th>Join Date</th>
-                                    <th>Status</th>
+                                    
                                 </tr>
                             </thead>
                             <tbody>
-                                <?php foreach ($users as $user): ?>
+                                <?php $n=0; foreach ($users as $user): $n++; ?>
                                     <tr>
                                         <td>
-                                            <img src="">
+                                            
                                             <p><?php echo $user['fullname']; ?></p>
                                         </td>
                                         <td><?php echo $user['date']; ?></td>
-                                        <td><span class="status <?php echo $user['Status']; ?>"><?php echo ucfirst($user['Status']); ?></span></td>
+                                        
                                     </tr>
-                                <?php endforeach; ?>
+                                <?php if($n==3)
+                            break; endforeach; ?>
                             </tbody>
                         </table>
                     </div>
@@ -148,13 +142,17 @@ $dashboardStats = fetchDashboardStats($pdo);
                             <h3>Active Users</h3>
                         </div>
                         <ul class="task-list">
-                            <?php foreach ($users as $user): ?>
+                            <?php foreach ($users as $user):
+                                if($user['Status'] === 'active'){
+
+                                 ?>
                                 <li class="<?php echo $user['Status'] === 'active' ? 'active-list' : 'not-active-list'; ?>">
                                     <div class="task-title">
-                                        <p><?php echo $user['fullname']; ?></p>
+                                        <p><?php
+                                         echo $user['fullname']; ?></p>
                                     </div>
                                 </li>
-                            <?php endforeach; ?>
+                            <?php } endforeach; ?>
                         </ul>
                     </div>
                     <!-- End of Active Members -->
@@ -190,7 +188,7 @@ $dashboardStats = fetchDashboardStats($pdo);
                         <table>
                             <thead>
                                 <tr>
-                                    <th>Profile</th>
+                                    
                                     <th>Name</th>
                                     <th>Email</th>
                                     <th>Role</th>
@@ -201,7 +199,7 @@ $dashboardStats = fetchDashboardStats($pdo);
                             <tbody>
                                 <?php foreach ($users as $user): ?>
                                     <tr>
-                                        <td data-label="Profile"><img src="" alt="User Profile"></td>
+                                        
                                         <td data-label="Name"><?php echo $user['fullname']; ?></td>
                                         <td data-label="Email"><?php echo $user['email']; ?></td>
                                         <td data-label="Role"><?php echo ucfirst($user['role']); ?></td>
@@ -246,7 +244,7 @@ $dashboardStats = fetchDashboardStats($pdo);
                         <table>
                             <thead>
                                 <tr>
-                                    <th>Profile</th>
+                                   
                                     <th>Name</th>
                                     
                                     <th>Specialty</th>
@@ -257,7 +255,7 @@ $dashboardStats = fetchDashboardStats($pdo);
                             <tbody>
                                 <?php foreach ($trainers as $trainer): ?>
                                     <tr>
-                                        <td><img src="images/trainer-1.jpg" alt="Trainer Profile"></td>
+                                        
                                         <td><?php echo $trainer['fullname']; ?></td>
                                         
                                         <td><?php echo $trainer['speciality']; ?></td>
@@ -310,7 +308,7 @@ $dashboardStats = fetchDashboardStats($pdo);
                                 <?php foreach ($memberships as $membership): ?>
                                     <tr>
                                         <td><?php echo $membership['name']; ?></td>
-                                        <td>$<?php echo $membership['amount']; ?></td>
+                                        <td>Rs.<?php echo $membership['amount']; ?></td>
                                         <td>
                                             <ul>
                                                 <li><?php echo $membership['m_type']; ?></li>
@@ -318,7 +316,7 @@ $dashboardStats = fetchDashboardStats($pdo);
                                         </td>
                                         <td>
                                             <button class="edit-btn">Edit</button>
-                                            <button class="publish-btn">Publish</button>
+                                            
                                             <button class="delete-btn">Delete</button>
                                         </td>
                                     </tr>

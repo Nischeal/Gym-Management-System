@@ -1,6 +1,36 @@
 <?php
 session_start();
-require('../form/db.php');
+require('db.php');
+
+
+
+
+$memberships = fetchMemberships($pdo);
+
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+
+
+    $email = $_POST['email'];
+    $password = $_POST['password'];
+
+    $users = fetchUserByEmail($pdo, $email, $password);
+
+    // Prepare and execute the statement
+    $stmt = $pdo->prepare("SELECT * FROM users WHERE email = :email AND password = :password");
+    $stmt->execute(['email' => $email, 'password' => md5($password)]); // Consider using password_hash() for better security
+
+    // Fetch the user information
+    $users = $stmt->fetch(PDO::FETCH_ASSOC);
+    
+    if ($users) {
+        $_SESSION['u_id'] = $users['u_id'];
+        
+        header("Location: db.php");
+        exit;
+    } else {
+        echo "Invalid email or password.";
+    }
+}
 ?>
 
 
@@ -15,7 +45,7 @@ require('../form/db.php');
     <title>Landing</title>
 </head>
 
-<body onload="loadContent('home')">
+<body onload="loadContent('profile')">
     <header>
         <nav>
             <a href="#" class="logo">
@@ -24,17 +54,18 @@ require('../form/db.php');
             </a>
 
             <ul class="nav-links">
-                <li onclick="loadContent('home')"><span>Home</span></li>
+                <li onclick="loadContent('profile')"><span>Profile</span></li>
                 <li onclick="loadContent('plan & pricing')"><span>Plans & pricing</span></li>
                 <li onclick="loadContent('aboutUs')"><span>About us</span></li>
                 <li onclick="loadContent('Contact')"><span>Contact</span></li>
+                <li onclick="loadContent('Settings')"><span>Settings</span></li>
             </ul>
-            <form action="#">
+            <!-- <form action="#">
                 <div class="form-input">
                     <a href="./form/login.php" class="Sign-in">Sign In</a>
                     <a href="./form/login.php#registerForm" class="register-nav">Register</a>
                 </div>
-            </form>
+            </form> -->
             <!-- <a href="#" class="notif">
                 <i class='bx bx-bell'></i>
             </a> -->
@@ -45,100 +76,62 @@ require('../form/db.php');
     </header>
 
     <main class="main-container main-content">
-        <!-- Home Section -->
-        <div id="home" class="content-section">
-            <div class="hero-section">
-                <div class="hero-content">
-                    <h1 class="hero-title">TRANSFORM YOUR BODY</h1>
-                    <h2 class="hero-subtitle">TRANSFORM YOUR LIFE</h2>
-                    <p class="hero-text">Join GymHero and start your fitness journey today</p>
-                    <div class="hero-buttons">
-                        <a onclick="loadContent('plan & pricing')" class="cta-button primary">Get Started</a>
-                        
-                    </div>
-                    
-                    <div class="stats-container">
-                        <div class="stat-item">
-                            <span class="stat-number">500+</span>
-                            <span class="stat-label">Happy Members</span>
-                        </div>
-                        <div class="stat-item">
-                            <span class="stat-number">20+</span>
-                            <span class="stat-label">Expert Trainers</span>
-                        </div>
-                        <div class="stat-item">
-                            <span class="stat-number">10+</span>
-                            <span class="stat-label">Fitness Programs</span>
-                        </div>
-                    </div>
-                </div>
-                
-                <div class="features-banner">
-                    <div class="feature-item">
-                        <i class='bx bx-dumbbell'></i>
-                        <span>Modern Equipment</span>
-                    </div>
-                    <div class="feature-item">
-                        <i class='bx bx-user-check'></i>
-                        <span>Expert Trainers</span>
-                    </div>
-                    <div class="feature-item">
-                        <i class='bx bx-timer'></i>
-                        <span>Flexible Hours</span>
-                    </div>
-                    <div class="feature-item">
-                        <i class='bx bx-heart'></i>
-                        <span>Wellness Support</span>
-                    </div>
-                </div>
+        <!-- profile  Section -->
+        <div id="profile" class="content-section">
+    <div class="profile-container">
+        <h2 class="section-title">User  Profile</h2>
+        <div class="profile-info">
+            <div class="info-item">
+            <p><strong>Full name:</strong> <?php echo isset($_SESSION['fullname']) ? htmlspecialchars($_SESSION['fullname']) : 'N/A'; ?></p>
+
+            </div>
+            <div class="info-item">
+                <p><strong>Address:</strong> <?php echo isset($_SESSION['address']) ? htmlspecialchars($_SESSION['address']) : 'N/A'; ?></p>
+            </div>
+            <div class="info-item">
+            <p><strong>Date of Birth:</strong> <?php echo isset($_SESSION['DOB']) ? htmlspecialchars($_SESSION['DOB']) : 'N/A'; ?></p>
+            </div>
+            <div class="info-item">
+            <p><strong>Phone no.:</strong> <?php echo isset($_SESSION['ph_no']) ? htmlspecialchars($_SESSION['ph_no']) : 'N/A'; ?></p>
+            </div>
+            <div class="info-item">
+                <p><strong>Email:</strong> <?php echo htmlspecialchars($_SESSION['email']); ?></p>
+            </div>
+            <div class="info-item">
+                <strong>Status:</strong> <span id="status">Active</span>
+            </div>
+            <div class="info-item">
+            <p><strong>Membership: </strong><?php echo htmlspecialchars($m_type); ?></p>
             </div>
         </div>
+    </div>
+</div>
 
         <!-- Membership Section -->
-        <div id="plan & pricing" class="content-section" style="display: none;">
-            <div class="container">
-                <h2 class="plans-title">CHOOSE YOUR MEMBERSHIP PLAN</h2>
-                <div class="plans">
-                    <div class="plan">
-                        <h2>1-MONTH</h2>
-                        <div class="price">Rs. 1,500</div>
-                        <div class="features">
-                            <ul>
-                                <li>Unlimited equipments</li> 
-                                <li>No time restriction</li>
-                                <li>Weight loss training</li>
-                            </ul>
-                        </div>
-                        <a href="./form/login.php" class="enroll-button">ENROLL NOW</a>
+        <div id="plan & pricing" class="content-section" style="display: block;">
+    <div class="container">
+        <h2 class="plans-title">CHOOSE YOUR MEMBERSHIP PLAN</h2>
+        <div class="plans">
+            <?php foreach ($memberships as $membership) : ?>
+                <div class="plan">
+                    <h2><?php echo htmlspecialchars($membership['m_type']); ?></h2>
+                    <div class="price">Rs. <?php echo htmlspecialchars($membership['amount']); ?></div>
+                    <div class="features">
+                        <ul>
+                            <?php
+                            // Assuming 'features' is a comma-separated string in the database
+                            $features = explode(',', $membership['features']);
+                            foreach ($features as $feature) :
+                            ?>
+                                <li><?php echo htmlspecialchars(trim($feature)); ?></li>
+                            <?php endforeach; ?>
+                        </ul>
                     </div>
-                    <div class="plan">
-                        <h2>6-MONTHS</h2>
-                        <div class="price">Rs. 7,500</div>
-                        <div class="features">
-                            <ul>
-                                <li>Unlimited equipments</li>
-                                <li>Personal trainer</li>
-                                <li>No time restriction</li>
-                                <li>Weight loss training</li>
-                            </ul>
-                        </div>
-                        <a href="./form/login.php" class="enroll-button">ENROLL NOW</a>
-                    </div>
-                    <div class="plan">
-                        <h2>12-MONTHS</h2>
-                        <div class="price">Rs. 12,000</div>
-                        <div class="features">
-                            <ul>
-                                <li>Unlimited equipments</li>
-                                <li>Personal trainer</li>
-                                <li>No time restriction</li>
-                                <li>Weight loss training</li>
-                            </ul>
-                        </div>
-                        <a href="./form/login.php" class="enroll-button">ENROLL NOW</a>
-                    </div>
+                    <a href="enroll.php?m_id=<?php echo urlencode($membership['m_id']); ?> &m_type=<?php urlencode($membership['m_type']); ?> &amount=<?php echo urlencode($membership['amount']); ?>" class="enroll-button">ENROLL NOW</a>
                 </div>
-            </div>
+            <?php endforeach; ?>
+        </div>
+    </div>
         </div>
 
         <!-- About Us Section -->

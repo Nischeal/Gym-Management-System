@@ -84,17 +84,43 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
         // If there are no login errors, proceed with login
         if (empty($login_errors)) {
-            // Check the user's credentials
+            $_SESSION['log'] = true;
+            // Fetch user details
             $stmt = $pdo->prepare("SELECT * FROM users WHERE email = ?");
             $stmt->execute([$login_email]);
             $user = $stmt->fetch(PDO::FETCH_ASSOC);
+        
+            // Fetch admin details
+            $stmt = $pdo->prepare("SELECT * FROM admin WHERE email = ?");
+            $stmt->execute([$login_email]);
+            $admin = $stmt->fetch(PDO::FETCH_ASSOC);
+        
             if ($user && password_verify($login_password, $user['password'])) {
-                $_SESSION['success'] = "Login successful!";
-                $response['success'] = true;
-            } else {
-                $login_errors['login'] = "Invalid email or password";
+                $_SESSION['email'] = $user['email'];
+                $_SESSION['password'] = $user['password'];
+                $_SESSION['u_id'] = $user['u_id'];
+
+                $_SESSION['DOB'] = $user['DOB'];
+                $_SESSION['address'] = $user['address'];
+                $_SESSION['ph_no'] = $user['ph_no'];
+                $_SESSION['fullname'] = $user['fullname'];
+                header("Location: ../userPage/index.php");
+                exit;
+            } 
+            
+            // Use md5() comparison for admin since password is stored in MD5 format
+            if ($admin && md5($login_password) === $admin['password']) {
+                
+                $_SESSION['email'] = $admin['email'];
+              
+                header("Location: ../AdminDashboard/index.php");
+                exit;
             }
+        
+            $login_errors['login'] = "Invalid email or password";
         }
+        
+        
 
         if (!empty($login_errors)) {
             $response['errors'] = $login_errors;
@@ -129,6 +155,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 <input type="email" id="loginEmail" name="login_email" placeholder="Enter your email" value="<?php echo isset($login_email) ? htmlspecialchars($login_email) : ''; ?>" required>
                 <?php if (isset($login_errors['login_email'])): ?>
                     <p class='error'><?php echo $login_errors['login_email']; ?></p>
+                <?php endif; ?>
+                <?php if (isset($login_errors['login'])): ?>
+                    <p class='error'><?php echo $login_errors['login']; ?></p>
                 <?php endif; ?>
             </div>
             <div class="form-group">
@@ -179,34 +208,29 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 <p class='success'><?php echo $_SESSION['success']; unset($_SESSION['success']); ?></p>
             <?php endif; ?>
         </form>
-   
 
+        <script>
+            document.addEventListener('DOMContentLoaded', function() {
+                const loginForm = document.getElementById('loginForm');
+                const registerForm = document.getElementById('registerForm');
+                const showRegisterLink = document.getElementById('showRegister');
+                const showLoginLink = document.getElementById('showLogin');
 
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            const loginForm = document.getElementById('loginForm');
-            const registerForm = document.getElementById('registerForm');
-            const showRegisterLink = document.getElementById('showRegister');
-            const showLoginLink = document.getElementById('showLogin');
+                // Switch to Register form
+                showRegisterLink.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    loginForm.style.display = 'none';
+                    registerForm.style.display = 'block';
+                });
 
-            // Switch to Register form
-            showRegisterLink.addEventListener('click', function(e) {
-                e.preventDefault();
-                loginForm.style.display = 'none';
-                registerForm.style.display = 'block';
+                // Switch to Login form
+                showLoginLink.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    registerForm.style.display = 'none';
+                    loginForm.style.display = 'block';
+                });
             });
-
-            // Switch to Login form
-            showLoginLink.addEventListener('click', function(e) {
-                e.preventDefault();
-                registerForm.style.display = 'none';
-                loginForm.style.display = 'block';
-            });
-
-           
-        });
-
-        
-    </script>
+        </script>
+    </div>
 </body>
 </html>
