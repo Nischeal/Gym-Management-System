@@ -1,6 +1,6 @@
 <?php
 session_start();
-require('./form/db.php');
+require('../form/db.php');
 ?>
 
 
