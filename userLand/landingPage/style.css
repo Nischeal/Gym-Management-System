@@ -1,0 +1,567 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap');
+
+:root {
+    --light: #ffffff;
+    --primary: #36699c;
+    --light-primary: #CFE8FF;
+    --grey: #D8D8D8;
+    --dark: #363949;
+    --danger: #D32F2F;
+    --warning: #FBC02D;
+    --success: #388E3C;
+    --light-success: #2bd867;
+    --black: #000000;
+    --transparent: rgba(81, 81, 85, 0.226);
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Poppins', sans-serif;
+}
+
+
+body {
+    background-image: url("./Form/GYMBG.jpg"); 
+    background-size: cover;
+    /* background-repeat: no-repeat; */
+    min-height: 100vh;
+    margin: 0; 
+}
+
+
+nav {
+    position: fixed;
+    height: 56px;
+    background: var(--transparent); /* Transparent background */
+    padding: 10px;
+    display: flex;
+    align-items: center;
+    top: 0;
+    left: 0;
+    z-index: 1000;
+    width: 100%;
+    backdrop-filter: blur(5px); /* Optional blur effect */
+}
+
+nav .logo {
+    font-size: 24px;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    color: var(--primary);
+    margin-right: auto; /* Push logo to the left */
+    text-decoration: none;
+}
+
+nav .logo .logo-name span {
+    color: var(--light);
+}
+
+nav .logo .bx {
+    font-size: 2.2rem;
+    margin-right: 5px;
+}
+
+nav a {
+    color: var(--dark);
+    text-decoration: none;
+}
+
+nav .bx.bx-menu {
+    cursor: pointer;
+    color: var(--dark);
+    margin-right: 20px;
+}
+
+/* nav form {
+    max-width: 200px;
+    width: 100%;
+} */
+
+/* nav .form-input {
+    display: flex;
+    align-items: center;
+    height: 36px;
+} */
+
+/* nav .form-input input {
+    flex-grow: 1;
+    padding: 0 16px;
+    height: 100%;
+    border: none;
+    background: var(--grey);
+    border-radius: 36px 0 0 36px;
+    outline: none;
+    width: 100%;
+    color: var(--dark);
+} */
+
+/* nav .form-input button {
+    margin-left: auto;
+    width: 80px;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: var(--primary);
+    color: var(--light);
+    font-size: 18px;
+    border: none;
+    outline: none;
+    border-radius: 50px;
+    cursor: pointer;
+} */
+
+
+
+
+
+
+.nav-links{
+    list-style: none;
+    display: flex;
+    gap: 50px;
+    flex-direction: row;
+    margin-right: auto;
+}
+.nav-links li {
+    cursor: pointer;
+    color: var(--light);
+}
+
+/* sighin Register */
+
+nav .form-input {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.Sign-in {
+    padding: 8px 20px;
+    background: transparent;
+    color: var(--light);
+    border: 1px solid var(--light);
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 14px;
+}
+
+.Sign-in:hover {
+    background: var(--light);
+    color: var(--primary);
+}
+
+.register-nav {
+    padding: 8px 20px;
+    background: transparent;
+    color: var(--light);
+    border: 1px solid var(--light);
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 14px;
+}
+
+.register-nav:hover {
+    background: var(--light-primary);
+    color: var(--primary);
+}
+
+.main-container{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    align-items: center;
+    gap: 7rem;
+}
+
+.hero-section {
+    margin-top: 5rem;
+    min-height: 100vh;
+    background: var(--transparent);
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    padding: 1rem;
+    color: white;
+    backdrop-filter: blur(5px);
+}
+
+.hero-content {
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.hero-title {
+    font-size: 4rem;
+    font-weight: 800;
+    margin-bottom: 1rem;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    color: var(--light);
+}
+
+.hero-subtitle {
+    font-size: 2.5rem;
+    font-weight: 600;
+    margin-bottom: 1.5rem;
+    color: var(--black);
+    
+}
+
+.hero-text {
+    font-size: 1.2rem;
+    margin-bottom: 2rem;
+    color: var(--black)
+}
+
+.hero-buttons {
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+    margin-bottom: 3rem;
+   
+}
+
+.cta-button {
+    padding: 1rem 2rem;
+    font-size: 1.1rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    border-radius: 50px;
+    transition: all 0.3s ease;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.cta-button.primary {
+    background: var(--primary);
+    color: white;
+    border: none;
+}
+
+
+
+.cta-button:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 5px 15px var(--black);
+}
+
+.cta-button.primary:hover {
+    background: var(--dark);
+}
+
+
+
+/* Stats Container */
+.stats-container {
+    display: flex;
+    justify-content: space-around;
+    gap: 2rem;
+    margin: 3rem 0;
+    animation: fadeIn 2.5s ease;
+}
+
+.stat-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.stat-number {
+    font-size: 2.5rem;
+    font-weight: 700;
+    color: var(--success);
+}
+
+.stat-label {
+    font-size: 1rem;
+    color: var(--light);
+}
+
+/* Features Banner */
+.features-banner {
+    display: flex;
+    justify-content: center;
+    gap: 2rem;
+    background: var(--dark);
+    backdrop-filter: blur(10px);
+    padding: 1.5rem;
+    border-radius: 15px;
+    margin-top: 2rem;
+    animation: fadeInUp 2s ease;
+}
+
+.feature-item {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.feature-item i {
+    font-size: 1.5rem;
+    color: var(--light);
+}
+.feature-item span {
+    color: var(--light-primary);
+}
+
+/* Animations
+@keyframes fadeInDown {
+    from {
+        opacity: 0;
+        transform: translateY(-30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+} */
+
+/* register box */
+
+
+
+
+
+/* mmembership plan */
+.container {
+    margin-top: 8rem;
+    display: flex;
+    flex-direction: column;
+    gap: 3rem;
+    text-align: center;
+}
+
+.plans-title {
+    color: var(--light); /* Match the orange color */
+    font-style:initial;
+    margin-bottom: 20px; /* Add some spacing below the title */
+}
+
+.plans {
+    display: flex;
+    justify-content: center;
+    gap: 5rem; /* Space between the plans */
+    
+}
+
+.plan {
+    background-color:var(--transparent); /* transparent boxes for plan */
+    padding: 20px;
+    border-radius: 8px;
+    width: 200px; /* Fixed width for consistent sizing */
+    box-sizing: border-box; /* Include padding in width calculation */
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    box-shadow: 0 2px 7px rgba(0, 0, 0, 0.555);
+    backdrop-filter: blur(5px); /* Optional blur effect */
+}
+
+.plan h2 {
+    color: var(--light);
+    margin-top: 0;
+}
+
+.plan .price {
+    font-weight: 600;
+    color: var(--light-success);
+    font-size: 2em;
+    margin-bottom: 10px;
+}
+
+.plan .features {
+    color: var(--light);
+    text-align: left;
+    margin-bottom: 20px;
+}
+
+.plan .features li {
+    margin-bottom: 5px;
+    list-style: none; /* Remove bullet points */
+    font-size: small;
+}
+.plan .features li::before {
+    content: "\2022"; /* Add a bullet point character */
+    margin-right: 5px;
+}
+
+.enroll-button {
+    /* position: absolute; */
+    background-color: var(--primary); /* Darker button */
+    color: var(--light);
+    font-weight: 600;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    text-decoration: none;
+    display: inline-block; /* Make it a block element to center text */
+    text-align: center;
+    width: 100%; /* Occupy full width of the container */
+}
+
+.enroll-button:hover {
+    background-color: var(--dark); /* Slightly lighter on hover */
+}
+
+/* about us section */
+
+.about-section {
+    padding: 4rem 2rem; /* Top and bottom padding */
+    text-align: center;
+}
+
+.about-container {
+    max-width: 960px;
+    margin: 0 auto;
+    padding: 0 20px;
+}
+
+.section-title {
+    text-align: center;
+    font-size: 2.5em;
+    margin-bottom: 20px;
+    color: var(--light);
+}
+
+.about-content {
+    color: var(--light);
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap; /* Allow content to wrap on smaller screens */
+    justify-content: space-around;
+    gap: 2rem;
+}
+
+
+
+
+.about-text {
+    flex: 1 1 500px; /* Flexible width for text */
+    text-align: left;
+}
+
+.about-text p {
+    margin-bottom: 15px;
+}
+
+.features-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 2rem;
+    margin-top: 2rem;
+}
+.feature {
+    text-align: center;
+    padding: 1.5rem;
+    background: var(--transparent);
+    border-radius: 8px;
+    backdrop-filter: blur(5px);
+}
+
+.feature i {
+    font-size: 2.5rem;
+    color: #007bff;
+}
+
+/* Contact Section Styles */
+.contact-container {
+    padding: 4rem 2rem;
+    background: var(--transparent);
+    
+}
+
+.contact-content {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 3rem;
+    margin-top: 2rem;
+}
+
+.contact-info {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 2rem;
+}
+
+.info-item {
+    padding: 1.5rem;
+    background: var(--transparent);
+    border-radius: 8px;
+    text-align: center;
+    backdrop-filter: blur(5px);
+}
+
+.info-item i {
+    font-size: 2rem;
+    color: #007bff;
+}
+
+.contact-form {
+    background: var(--transparent);
+    padding: 2rem;
+    border-radius: 8px;
+}
+
+.form-group {
+    margin-bottom: 1rem;
+}
+
+.form-group input,
+.form-group textarea {
+    width: 100%;
+    padding: 0.8rem;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+}
+
+.form-group textarea {
+    height: 150px;
+    resize: vertical;
+}
+
+.submit-btn {
+    width: 100%;
+    padding: 1rem;
+    background: #007bff;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background 0.3s;
+}
+
+.submit-btn:hover {
+    background: #0056b3;
+}
+
+
