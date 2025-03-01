@@ -1,6 +1,17 @@
 <?php
 session_start();
 require('db.php');
+
+        
+            $servername = "localhost";
+            $username = "root";
+            $password = "";
+            $dbname = "gym_management_system";
+            $conn = new mysqli($servername, $username, $password, $dbname);
+            if ($conn->connect_error) {
+                die("Connection Failed: " .$conn->connect_error);
+            } 
+
 if(!isset($_SESSION['log'])){
     echo "<script>alert('Login Required')</script>";
   
@@ -15,10 +26,11 @@ $memberships = fetchMemberships($pdo);
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
 
-    $email = $_POST['email'];
-    $password = $_POST['password'];
+    $email = $_POST['email'] ?? '';  // Use null coalescing to avoid warnings
+    $password = $_POST['password'] ?? '';
 
     $users = fetchUserByEmail($pdo, $email, $password);
+    
 
  
     $stmt = $pdo->prepare("SELECT * FROM users WHERE email = :email AND password = :password");
@@ -31,9 +43,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         
         header("Location: db.php");
         exit;
-    } else {
-        echo "Invalid email or password.";
     }
+    // } else {
+    //     echo "Invalid email or password.";
+    // }
 }
 // $stmt = $conn->prepare("SELECT  amount, enrolled_at, duration FROM members WHERE u_id = ?");
 // $stmt->bind_param("i", $u_id);
@@ -88,7 +101,7 @@ $stmt->execute();
 $memberships = $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
 
 $stmt->close();
-$conn->close();
+
 ?>
 
 
@@ -138,24 +151,33 @@ $conn->close();
 <main class="main-container main-content">
         <!-- profile  Section -->
 <div id="profile" class="content-section">
+
+<?php 
+$userid =  $_SESSION['u_id'];
+$sql="SELECT * FROM users WHERE u_id =$userid";
+$result = $conn->query($sql);
+if($result->num_rows > 0){
+    $row = $result->fetch_assoc();
+}
+
+?>
     <div class="profile-container">
         <h2 class="section-title">User  Profile</h2>
         <div class="profile-info">
             <div class="info-item">
-            <p><strong>Full name:</strong> <?php echo isset($_SESSION['fullname']) ? htmlspecialchars($_SESSION['fullname']) : 'N/A'; ?></p>
-
+            <p><strong>Full name:</strong> <?php echo isset($row['fullname']) ? htmlspecialchars($row['fullname']) : 'N/A'; ?></p>
             </div>
             <div class="info-item">
-                <p><strong>Address:</strong> <?php echo isset($_SESSION['address']) ? htmlspecialchars($_SESSION['address']) : 'N/A'; ?></p>
+                <p><strong>Address:</strong> <?php echo isset($row['address']) ? htmlspecialchars($row['address']) : 'N/A'; ?></p>
             </div>
             <div class="info-item">
-            <p><strong>Date of Birth:</strong> <?php echo isset($_SESSION['DOB']) ? htmlspecialchars($_SESSION['DOB']) : 'N/A'; ?></p>
+            <p><strong>Date of Birth:</strong> <?php echo isset($row['DOB']) ? htmlspecialchars($row['DOB']) : 'N/A'; ?></p>
             </div>
             <div class="info-item">
-            <p><strong>Phone no.:</strong> <?php echo isset($_SESSION['ph_no']) ? htmlspecialchars($_SESSION['ph_no']) : 'N/A'; ?></p>
+            <p><strong>Phone no.:</strong> <?php echo isset($row['ph_no']) ? htmlspecialchars($row['ph_no']) : 'N/A'; ?></p>
             </div>
             <div class="info-item">
-                <p><strong>Email:</strong> <?php echo htmlspecialchars($_SESSION['email']); ?></p>
+                <p><strong>Email:</strong> <?php echo htmlspecialchars($row['email']); ?></p>
             </div>
             <div class="info-item">
                 <strong>Status:</strong> <span id="status">Active</span>
@@ -369,10 +391,46 @@ $conn->close();
             if($result->num_rows > 0){
                 $row = $result->fetch_assoc();
             }
+
+          
+
+
+            if (isset($_POST['updateUser'])) {
+                $uid = $_SESSION['u_id'];
+                $name = $_POST['fullname'];
+                $address = $_POST['address'];
+                $phone = $_POST['phone'];
+                
+                
+
+
+                $DOB = $_POST['dob'];
+                $status = $_POST['status'];
+
+                if (preg_match('/^(98|97)\d{8}$/', $phone)) {
+                    
+                    $query = "UPDATE `users` SET `fullname`='$name',`address`='$address',`DOB`='$DOB',`ph_no`='$phone',`Status`='$status' WHERE `u_id`=$uid";
+
+                    if ($conn->query($query) === TRUE) {
+                        echo "User updated successfully";
+                        
+                    } else {
+                        echo "Error: " . $query . "<br>" . $conn->error;
+                        }
+                } else {
+                    echo "Invalid phone number!";
+                   
+                }
+
+                   
+            }
+
+
+        
             ?>
             <div class="settings-container">
                 <h2 class="section-title">Settings</h2>
-                <form action="process_enrollment.php" method="POST">
+                <form action="" method="POST">
                     <label for="fullname" class="settings__label">Full Name</label>
                     <div class="settings__box">
                         <input type="text" id="fullname" name="fullname" value="<?php echo $row['fullname']; ?>" class="settings__input" placeholder="Fullname" required>
@@ -396,7 +454,7 @@ $conn->close();
                             <option value="inactive">in active</option>
                         </select>
                     </div>
-                    <button type="submit" class="settings__submit-btn">Submit</button>
+                    <button type="submit" name="updateUser" class="settings__submit-btn">Submit</button>
                 </form>
             </div>
         </div>

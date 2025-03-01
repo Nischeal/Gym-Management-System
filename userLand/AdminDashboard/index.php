@@ -171,7 +171,7 @@ $dashboardStats = fetchDashboardStats($pdo);
                             <li><a href="#" class="active">Users</a></li>
                         </ul>
                     </div>
-                    <a href="#" class="report">
+                    <a href="add_user.php" class="report">
                         <i class='bx bx-user-plus'></i>
                         <span>Add User</span>
                     </a>
@@ -182,8 +182,8 @@ $dashboardStats = fetchDashboardStats($pdo);
                         <div class="header">
                             <i class='bx bx-group'></i>
                             <h3>User List</h3>
-                            <i class='bx bx-filter'></i>
-                            <i class='bx bx-search'></i>
+                            <!-- <i class='bx bx-filter'></i>
+                            <i class='bx bx-search'></i> -->
                         </div>
                         <table>
                             <thead>
@@ -205,7 +205,7 @@ $dashboardStats = fetchDashboardStats($pdo);
                                         <td data-label="Role"><?php echo ucfirst($user['role']); ?></td>
                                         <td data-label="Status"><span class="status <?php echo $user['Status'] === 'active' ? 'active' : 'inactive'; ?>"><?php echo ucfirst($user['Status']); ?></span></td>
                                         <td data-label="Action">
-                                            <button class="edit-btn">Edit</button>
+                                            <!-- <button class="edit-btn">Edit</button> -->
                                             <button class="delete-btn">Delete</button>
                                         </td>
                                     </tr>
@@ -227,7 +227,7 @@ $dashboardStats = fetchDashboardStats($pdo);
                             <li><a href="#" class="active">Trainers</a></li>
                         </ul>
                     </div>
-                    <a href="#" class="report">
+                    <a href="add_trainer.php" class="report">
                         <i class='bx bx-user-plus'></i>
                         <span>Add Trainer</span>
                     </a>
@@ -238,8 +238,8 @@ $dashboardStats = fetchDashboardStats($pdo);
                         <div class="header">
                             <i class='bx bx-dumbbell'></i>
                             <h3>Trainer List</h3>
-                            <i class='bx bx-filter'></i>
-                            <i class='bx bx-search'></i>
+                            <!-- <i class='bx bx-filter'></i>
+                            <i class='bx bx-search'></i> -->
                         </div>
                         <table>
                             <thead>
@@ -261,7 +261,7 @@ $dashboardStats = fetchDashboardStats($pdo);
                                         <td><?php echo $trainer['speciality']; ?></td>
                                         
                                         <td>
-                                            <button class="edit-btn">Edit</button>
+                                            <!-- <button class="edit-btn">Edit</button> -->
                                             <button class="delete-btn">Delete</button>
                                         </td>
                                     </tr>
@@ -283,7 +283,7 @@ $dashboardStats = fetchDashboardStats($pdo);
                             <li><a href="#" class="active">Memberships</a></li>
                         </ul>
                     </div>
-                    <a href="#" class="report add-membership-btn">
+                    <a href="add_membership.php" class="report add-membership-btn">
                         <i class='bx bx-plus-circle'></i>
                         <span>Add Membership</span>
                     </a>
@@ -315,7 +315,7 @@ $dashboardStats = fetchDashboardStats($pdo);
                                             </ul>
                                         </td>
                                         <td>
-                                            <button class="edit-btn">Edit</button>
+                                            <!-- <button class="edit-btn">Edit</button> -->
                                             
                                             <button class="delete-btn">Delete</button>
                                         </td>
