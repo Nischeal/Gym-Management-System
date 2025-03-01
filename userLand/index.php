@@ -1,6 +1,9 @@
 <?php
 session_start();
-require('../form/db.php');
+require('db.php');
+
+
+$memberships = fetchMemberships($pdo);
 ?>
 
 
@@ -32,7 +35,7 @@ require('../form/db.php');
             <form action="#">
                 <div class="form-input">
                     <a href="./form/login.php" class="Sign-in">Sign In</a>
-                    <a href="./form/login.php#registerForm" class="register-nav">Register</a>
+                    <!-- <a href="./form/login.php#registerForm" class="register-nav">Register</a> -->
                 </div>
             </form>
             <!-- <a href="#" class="notif">
@@ -53,7 +56,7 @@ require('../form/db.php');
                     <h2 class="hero-subtitle">TRANSFORM YOUR LIFE</h2>
                     <p class="hero-text">Join GymHero and start your fitness journey today</p>
                     <div class="hero-buttons">
-                        <a onclick="loadContent('plan & pricing')" class="cta-button primary">Get Started</a>
+                        <a href="../Form/login.php#register" class="cta-button primary">Get Started</a>
                         
                     </div>
                     
@@ -95,52 +98,31 @@ require('../form/db.php');
         </div>
 
         <!-- Membership Section -->
-        <div id="plan & pricing" class="content-section" style="display: none;">
-            <div class="container">
-                <h2 class="plans-title">CHOOSE YOUR MEMBERSHIP PLAN</h2>
-                <div class="plans">
-                    <div class="plan">
-                        <h2>1-MONTH</h2>
-                        <div class="price">Rs. 1,500</div>
-                        <div class="features">
-                            <ul>
-                                <li>Unlimited equipments</li> 
-                                <li>No time restriction</li>
-                                <li>Weight loss training</li>
-                            </ul>
-                        </div>
-                        <a href="./form/login.php" class="enroll-button">ENROLL NOW</a>
+        <div id="plan & pricing" class="content-section" style="display: block;">
+    <div class="container">
+        <h2 class="plans-title">CHOOSE YOUR MEMBERSHIP PLAN</h2>
+        <div class="plans">
+            <?php foreach ($memberships as $membership) : ?>
+                <div class="plan">
+                    <h2><?php echo htmlspecialchars($membership['m_type']); ?></h2>
+                    <div class="price">Rs. <?php echo htmlspecialchars($membership['amount']); ?></div>
+                    <div class="features">
+                        <ul>
+                            <?php
+                            // Assuming 'features' is a comma-separated string in the database
+                            $features = explode(',', $membership['features']);
+                            foreach ($features as $feature) :
+                            ?>
+                                <li><?php echo htmlspecialchars(trim($feature)); ?></li>
+                            <?php endforeach; ?>
+                        </ul>
                     </div>
-                    <div class="plan">
-                        <h2>6-MONTHS</h2>
-                        <div class="price">Rs. 7,500</div>
-                        <div class="features">
-                            <ul>
-                                <li>Unlimited equipments</li>
-                                <li>Personal trainer</li>
-                                <li>No time restriction</li>
-                                <li>Weight loss training</li>
-                            </ul>
-                        </div>
-                        <a href="./form/login.php" class="enroll-button">ENROLL NOW</a>
-                    </div>
-                    <div class="plan">
-                        <h2>12-MONTHS</h2>
-                        <div class="price">Rs. 12,000</div>
-                        <div class="features">
-                            <ul>
-                                <li>Unlimited equipments</li>
-                                <li>Personal trainer</li>
-                                <li>No time restriction</li>
-                                <li>Weight loss training</li>
-                            </ul>
-                        </div>
-                        <a href="./form/login.php" class="enroll-button">ENROLL NOW</a>
-                    </div>
+                    <a href="../Form/login.php" class="enroll-button">ENROLL NOW</a>
                 </div>
-            </div>
+            <?php endforeach; ?>
         </div>
-
+    </div>
+    </div>
         <!-- About Us Section -->
         <div id="aboutUs" class="content-section" style="display: none;">
             <div class="about-section">

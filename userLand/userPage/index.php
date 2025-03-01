@@ -1,6 +1,11 @@
 <?php
 session_start();
 require('db.php');
+if(!isset($_SESSION['log'])){
+    echo "<script>alert('Login Required')</script>";
+  
+    echo '<meta http-equiv = "refresh" content = "0; url = ../Form/login.php"/>';
+}
 
 
 
@@ -31,6 +36,60 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         echo "Invalid email or password.";
     }
 }
+// $stmt = $conn->prepare("SELECT  amount, enrolled_at, duration FROM members WHERE u_id = ?");
+// $stmt->bind_param("i", $u_id);
+// $stmt->execute();
+// $result = $stmt->get_result();
+
+// $membershipInfo = $result->fetch_assoc();
+
+// if ($membershipInfo) {
+//     // Calculate remaining days based on the 'enroll_at' and 'duration'
+//     $enrolled_date = strtotime($membershipInfo['enrolled_at']);
+//     $duration = $membershipInfo['duration']; // Assuming duration is in days
+//     $expiry_date = strtotime("+$duration days", $enrolled_date);
+//     $remaining_days = max(0, ceil(($expiry_date - time()) / (60 * 60 * 24))); // Calculate remaining days
+//     $membershipInfo['remaining_days'] = $remaining_days; // Add remaining days to membership info
+// } else {
+//     $membershipInfo = null;
+// }
+
+// if ($stmt->num_rows > 0) {
+//     $stmt->bind_result($enrolled_at, $duration);
+//     $stmt->fetch();
+
+//     // Calculate expiry date
+//     $enrolledDate = new DateTime($enrolled_at);
+//     $expiryDate = clone $enrolledDate;
+//     $expiryDate->modify("+$duration days");
+//     $today = new DateTime();
+    
+//     // Calculate remaining days
+//     $remainingDays = $today < $expiryDate ? $today->diff($expiryDate)->days : 0;
+// }
+
+$stmt = $conn->prepare("SELECT  amount, enrolled_at, duration FROM members WHERE u_id = ?");
+$stmt->bind_param("i", $u_id);
+$stmt->execute();
+$result = $stmt->get_result();
+$membershipInfo = $result->fetch_assoc();
+
+// If the user has enrolled, calculate remaining days and add to the membershipInfo
+if ($membershipInfo) {
+    $enroll_date = strtotime($membershipInfo['enrolled_at']);
+    $duration = $membershipInfo['duration']; // Assuming duration is in days
+    $expiry_date = strtotime("+$duration days", $enroll_date);
+    $remaining_days = max(0, ceil(($expiry_date - time()) / (60 * 60 * 24))); // Calculate remaining days
+    $membershipInfo['remaining_days'] = $remaining_days; // Add remaining days to membership info
+}
+
+// Fetch all available membership plans
+$stmt = $conn->prepare("SELECT * FROM memberships");
+$stmt->execute();
+$memberships = $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
+
+$stmt->close();
+$conn->close();
 ?>
 
 
@@ -58,11 +117,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 <li onclick="loadContent('plan & pricing')"><span>Plans & pricing</span></li>
                 <li onclick="loadContent('aboutUs')"><span>About us</span></li>
                 <li onclick="loadContent('Contact')"><span>Contact</span></li>
-                <li onclick="loadContent('Settings')"><span>Settings</span></li>
+                <li onclick="loadContent('settings')"><span>Settings</span></li>
             </ul>
+
+            <a href="logout.php" class="Sign-in">Log out</a>
             <!-- <form action="#">
                 <div class="form-input">
-                    <a href="./form/login.php" class="Sign-in">Sign In</a>
+                    
                     <a href="./form/login.php#registerForm" class="register-nav">Register</a>
                 </div>
             </form> -->
@@ -77,7 +138,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     <main class="main-container main-content">
         <!-- profile  Section -->
-        <div id="profile" class="content-section">
+<div id="profile" class="content-section">
     <div class="profile-container">
         <h2 class="section-title">User  Profile</h2>
         <div class="profile-info">
@@ -108,13 +169,14 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 </div>
 
         <!-- Membership Section -->
-        <div id="plan & pricing" class="content-section" style="display: block;">
+<div id="plan & pricing" class="content-section" style="display: block;">
     <div class="container">
         <h2 class="plans-title">CHOOSE YOUR MEMBERSHIP PLAN</h2>
         <div class="plans">
             <?php foreach ($memberships as $membership) : ?>
                 <div class="plan">
                     <h2><?php echo htmlspecialchars($membership['m_type']); ?></h2>
+                    <input type="hidden" name="duration" value="<?php $membership['duration'] ?>">
                     <div class="price">Rs. <?php echo htmlspecialchars($membership['amount']); ?></div>
                     <div class="features">
                         <ul>
@@ -127,12 +189,63 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                             <?php endforeach; ?>
                         </ul>
                     </div>
-                    <a href="enroll.php?m_id=<?php echo urlencode($membership['m_id']); ?> &m_type=<?php urlencode($membership['m_type']); ?> &amount=<?php echo urlencode($membership['amount']); ?>" class="enroll-button">ENROLL NOW</a>
+                    <?php   
+                    
+                    ?>
+                   <a href="enroll.php?m_id=<?php echo $membership['m_id']; ?> &m_type=<?php echo $membership['m_type']; ?> &amount=<?php echo $membership['amount']; ?> &duration=<?php echo $membership['duration']; ?>" class="enroll-button">ENROLL NOW</a>
+
                 </div>
             <?php endforeach; ?>
         </div>
     </div>
+</div>
+
+<!-- membership section after enroll -->
+<div class="pricing-section">
+    <?php if ($membershipInfo): ?>
+        <!-- Membership Plan Section (User is enrolled) -->
+        <div class="membership-plan">
+            <h2>Your Membership Plan</h2>
+            <!-- <p><strong>Plan Type:</strong> <?php echo htmlspecialchars($membershipInfo['m_type']); ?></p> -->
+            <p><strong>Amount Paid:</strong> Rs. <?php echo htmlspecialchars($membershipInfo['amount']); ?></p>
+            <p><strong>Remaining Days:</strong> <?php echo $membershipInfo['remaining_days']; ?> days</p>
+
+            <?php if ($membershipInfo['remaining_days'] === 0): ?>
+                <p style="color: red;"><strong>Your membership has expired! Renew now.</strong></p>
+                <a href="renew.php" class="renew-button">Renew Membership</a>
+            <?php endif; ?>
         </div>
+    <?php else: ?>
+        <!-- Pricing Section (User is not enrolled) -->
+        <div id="plan & pricing" class="content-section" style="display: block;">
+            <div class="container">
+                <h2 class="plans-title">CHOOSE YOUR MEMBERSHIP PLAN</h2>
+                <div class="plans">
+                    <?php foreach ($memberships as $membership) : ?>
+                        <div class="plan">
+                            <h2><?php echo htmlspecialchars($membership['m_type']); ?></h2>
+                            <input type="hidden" name="duration" value="<?php echo $membership['duration']; ?>">
+                            <div class="price">Rs. <?php echo htmlspecialchars($membership['amount']); ?></div>
+                            <div class="features">
+                                <ul>
+                                    <?php
+                                    // Assuming 'features' is a comma-separated string in the database
+                                    $features = explode(',', $membership['features']);
+                                    foreach ($features as $feature) :
+                                    ?>
+                                        <li><?php echo htmlspecialchars(trim($feature)); ?></li>
+                                    <?php endforeach; ?>
+                                </ul>
+                            </div>
+                            <a href="enroll.php?m_id=<?php echo $membership['m_id']; ?>&m_type=<?php echo $membership['m_type']; ?>&amount=<?php echo $membership['amount']; ?>&duration=<?php echo $membership['duration']; ?>" class="enroll-button">ENROLL NOW</a>
+                        </div>
+                    <?php endforeach; ?>
+                </div>
+            </div>
+        </div>
+    <?php endif; ?>
+</div>
+
 
         <!-- About Us Section -->
         <div id="aboutUs" class="content-section" style="display: none;">
@@ -228,6 +341,32 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                         </form>
                     </div>
                 </div>
+            </div>
+        </div>
+
+        <!-- Settings Section -->
+        <div id="settings" class="content-section" style="display: none;">
+            <div class="settings-container">
+                <h2 class="section-title">Settings</h2>
+                <form action="update_settings.php" method="POST">
+                    <label for="fullname" class="settings__label">Full Name</label>
+                    <div class="settings__box">
+                        <input type="text" id="fullname" name="fullname" class="settings__input" placeholder="Fullname" required>
+                    </div>
+                    <label for="address" class="settings__label">Address</label>
+                    <div class="settings__box">
+                        <input type="text" id="address" name="address" class="settings__input" placeholder="Address" required>
+                    </div>
+                    <label for="phone" class="settings__label">Phone</label>
+                    <div class="settings__box">
+                        <input type="number" id="phone" name="phone" class="settings__input" placeholder="Phone" required>
+                    </div>
+                    <label for="dob" class="settings__label">Date of Birth</label>
+                    <div class="settings__box">
+                        <input type="date" id="dob" name="dob" class="settings__input" placeholder="DOB" required>
+                    </div>
+                    <button type="submit" class="settings__submit-btn">Submit</button>
+                </form>
             </div>
         </div>
     </main>

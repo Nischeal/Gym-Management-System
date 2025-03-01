@@ -10,4 +10,11 @@ try {
 } catch (PDOException $e) {
     die("Database connection failed: " . $e->getMessage());
 }
+
+
+function fetchMemberships($pdo) {
+    $stmt = $pdo->prepare("SELECT * FROM memberships");
+    $stmt->execute();
+    return $stmt->fetchAll(PDO::FETCH_ASSOC);
+}
 ?>

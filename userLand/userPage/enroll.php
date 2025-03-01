@@ -1,5 +1,6 @@
 <?php
 session_start();
+include('db.php');
 // echo "<pre>";
 // print_r($_SESSION);
 // echo "</pre>";
@@ -13,11 +14,25 @@ if (!isset($_SESSION['u_id'])) {
 $u_id = $_SESSION['u_id'];
 
 $u_name = $_SESSION['fullname']; // Assuming you store the username in the session
+// $amouont = $_SESSION['amount'];
 
 // Get membership details from URL
 $m_id = isset($_GET['m_id']) ? htmlspecialchars($_GET['m_id']) : 'N/A';
 $m_type = isset($_GET['m_type']) ? htmlspecialchars($_GET['m_type']) : 'N/A';
 $amount = isset($_GET['amount']) ? htmlspecialchars($_GET['amount']) : 'N/A';
+$duration = isset($_GET['duration']) ? htmlspecialchars($_GET['duration']) : 'N/A';
+
+$stmt = $conn->prepare("SELECT enrolled_at, duration FROM members WHERE u_id = ?");
+$stmt->bind_param("i", $u_id);
+$stmt->execute();
+$stmt->store_result();
+
+
+
+// added
+
+$stmt->close();
+
 ?>
 
 <!DOCTYPE html>
@@ -109,6 +124,7 @@ $amount = isset($_GET['amount']) ? htmlspecialchars($_GET['amount']) : 'N/A';
 
         <div class="detail">
             <label for="m_type">Membership Type:</label>
+            <input type="hidden" name="duration" value="<?php echo isset($_GET['duration']) ? $_GET['duration'] : 0; ?>">
             <input type="text" id="m_type" name="m_type" value="<?php echo $m_type; ?>" readonly>
         </div>
 
@@ -119,7 +135,8 @@ $amount = isset($_GET['amount']) ? htmlspecialchars($_GET['amount']) : 'N/A';
 
         <!-- Hidden field for m_id -->
         <input type="hidden" name="m_id" value="<?php echo $m_id; ?>">
-
+        
+      
         <button type="submit">Confirm Enrollment</button>
     </form>
 </div>
