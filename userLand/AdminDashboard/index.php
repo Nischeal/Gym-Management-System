@@ -171,7 +171,7 @@ $dashboardStats = fetchDashboardStats($pdo);
                             <li><a href="#" class="active">Users</a></li>
                         </ul>
                     </div>
-                    <a href="#" class="report">
+                    <a href="add_user.php" class="report">
                         <i class='bx bx-user-plus'></i>
                         <span>Add User</span>
                     </a>
@@ -227,7 +227,7 @@ $dashboardStats = fetchDashboardStats($pdo);
                             <li><a href="#" class="active">Trainers</a></li>
                         </ul>
                     </div>
-                    <a href="#" class="report">
+                    <a href="add_trainer.php" class="report">
                         <i class='bx bx-user-plus'></i>
                         <span>Add Trainer</span>
                     </a>
@@ -283,7 +283,7 @@ $dashboardStats = fetchDashboardStats($pdo);
                             <li><a href="#" class="active">Memberships</a></li>
                         </ul>
                     </div>
-                    <a href="#" class="report add-membership-btn">
+                    <a href="add_membership.php" class="report add-membership-btn">
                         <i class='bx bx-plus-circle'></i>
                         <span>Add Membership</span>
                     </a>

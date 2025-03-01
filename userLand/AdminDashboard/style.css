@@ -21,7 +21,7 @@
     padding: 0;
     box-sizing: border-box;
     font-family: 'Poppins', sans-serif;
-    height: 100vh;
+    /* height: 100vh; */
 }
 
 .icon {
@@ -62,6 +62,32 @@ body{
     background: var(--grey);
     overflow-x: hidden;
     height: 100vh;
+}
+
+header {
+    background: transparent;
+    padding: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.logo {
+    font-size: 24px;
+    font-weight: 700;
+    color: var(--primary);
+    display: flex;
+    align-items: center;
+}
+
+.logo .logo-name span {
+    color: var(--dark);
+}
+
+.logo .bx {
+    font-size: 2.2rem;
+    margin-right: 10px;
 }
 
 .sidebar{
@@ -210,6 +236,7 @@ body{
 .main-content{
     height: 100vh;
 }
+
 .content{
     position: relative;
     width: calc(100% - 230px);
@@ -786,5 +813,82 @@ thead th:last-child {
     overflow-x: auto;
 }
 
+/* add form */
 
+.add {
+    background-image: url("../images/GYMBG.jpg"); 
+    background-size: cover;
+    min-height: 100vh;
+    margin: 0; 
+}
 
+.form-group {
+    margin-bottom: 1rem;
+}
+
+.form-group input,
+.form-group textarea {
+    width: 100%;
+    padding: 0.8rem;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+}
+
+.form-group textarea {
+    height: 150px;
+    resize: vertical;
+}
+
+.submit-btn {
+    width: 100%;
+    padding: 1rem;
+    background: #007bff;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background 0.3s;
+}
+
+.submit-btn:hover {
+    background: #0056b3;
+}
+
+.add-title h1 {
+    font-size: 24px;
+    margin-bottom: 20px;
+    color: var(--dark);
+}
+
+.success {
+    color: var(--success);
+    margin-bottom: 20px;
+}
+
+.add-content {
+    margin: 40px auto;
+    max-width: 600px;
+    background: var(--light);
+    border-radius: 8px;
+    padding: 20px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.add-main-content {
+    padding: 20px;
+}
+
+nav {
+    position: fixed;
+    height: 56px;
+    background: var(--transparent); /* Transparent background */
+    padding: 10px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    top: 0;
+    left: 0;
+    z-index: 1000;
+    width: 100%;
+    backdrop-filter: blur(5px); /* Optional blur effect */
+}

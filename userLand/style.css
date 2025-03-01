@@ -23,7 +23,7 @@
 
 
 body {
-    background-image: url("../Form/GYMBG.jpg"); 
+    background-image: url("images/GYMBG.jpg"); 
     background-size: cover;
     /* background-repeat: no-repeat; */
     min-height: 100vh;
