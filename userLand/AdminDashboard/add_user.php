@@ -4,12 +4,27 @@ include 'db.php';
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $fullname = $_POST['fullname'];
     $email = $_POST['email'];
-    $password = md5($_POST['password']);
+    $password = $_POST['password'];
 
-    $stmt = $pdo->prepare("INSERT INTO users (fullname, email, password) VALUES (?, ?, ?)");
-    $stmt->execute([$fullname, $email, $password]);
+    // Validate full name (only letters and spaces)
+    if (!preg_match("/^[a-zA-Z ]*$/", $fullname)) {
+        $error = "Only letters and white space allowed in full name";
+    }
+    // Validate email
+    elseif (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+        $error = "Invalid email format";
+    }
+    // Validate password (at least 8 characters, at least one letter and one number)
+    elseif (!preg_match("/^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/", $password)) {
+        $error = "Password must be at least 8 characters long and include at least one letter and one number";
+    }
+    else {
+        $password = md5($password);
+        $stmt = $pdo->prepare("INSERT INTO users (fullname, email, password) VALUES (?, ?, ?)");
+        $stmt->execute([$fullname, $email, $password]);
 
-    $success = "User added successfully!";
+        $success = "User added successfully!";
+    }
 }
 ?>
 
@@ -40,6 +55,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             <div class="add-title">
                 <h1>Add New User</h1>
                 <?php if (isset($success)) { echo "<p class='success'>$success</p>"; } ?>
+                <?php if (isset($error)) { echo "<p class='error'>$error</p>"; } ?>
                 <form method="POST" action="">
                     <div class="form-group">
                         <label for="fullname">Full Name</label>

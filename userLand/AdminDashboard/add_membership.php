@@ -5,9 +5,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $m_type = $_POST['m_type'];
     $amount = $_POST['amount'];
     $name = $_POST['name'];
-
-    $stmt = $pdo->prepare("INSERT INTO memberships (m_type, amount, name) VALUES (?, ?, ?)");
-    $stmt->execute([$m_type, $amount, $name]);
+    $features = $_POST['features'];
+    $duration = $_POST['duration'];
+    
+    $stmt = $pdo->prepare("INSERT INTO memberships (m_type, amount, name, features, duration) VALUES (?, ?, ?, ?, ?)");
+    $stmt->execute([$m_type, $amount, $name, $features, $duration]);
 
     $success = "Membership added successfully!";
 }
@@ -54,6 +56,14 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     <div class="form-group">
                         <label for="name">Name</label>
                         <input type="text" id="name" name="name" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="features">Features</label>
+                        <input type="text" id="features" name="features" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="duration">Duration in days</label>
+                        <input type="number" id="duration" name="duration" required>
                     </div>
                     <button type="submit" class="submit-btn">Add Membership</button>
                 </form>

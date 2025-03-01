@@ -37,7 +37,7 @@ function fetchDashboardStats($pdo) {
     $stats = [];
 
     // Fetch total members
-    $stmt = $pdo->prepare("SELECT * FROM user_count");
+    $stmt = $pdo->prepare("SELECT count(*) as total_users FROM users");
     $stmt->execute();
     $stats['total_users'] = $stmt->fetch(PDO::FETCH_ASSOC)['total_users'];
 

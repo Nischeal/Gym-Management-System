@@ -206,7 +206,7 @@ $dashboardStats = fetchDashboardStats($pdo);
                                         <td data-label="Status"><span class="status <?php echo $user['Status'] === 'active' ? 'active' : 'inactive'; ?>"><?php echo ucfirst($user['Status']); ?></span></td>
                                         <td data-label="Action">
                                             <!-- <button class="edit-btn">Edit</button> -->
-                                            <button class="delete-btn">Delete</button>
+                                            <a href="delete.php?u_id=<?php echo $user['u_id']?>" id=""><button class="delete-btn">Delete</button></a>
                                         </td>
                                     </tr>
                                 <?php endforeach; ?>
@@ -262,7 +262,9 @@ $dashboardStats = fetchDashboardStats($pdo);
                                         
                                         <td>
                                             <!-- <button class="edit-btn">Edit</button> -->
-                                            <button class="delete-btn">Delete</button>
+                                            
+                                            <a href="deleteTrainer.php?t_id=<?php echo $trainer['t_id']?>" ><button class="delete-btn">Delete</button></a>
+
                                         </td>
                                     </tr>
                                 <?php endforeach; ?>
@@ -317,7 +319,9 @@ $dashboardStats = fetchDashboardStats($pdo);
                                         <td>
                                             <!-- <button class="edit-btn">Edit</button> -->
                                             
-                                            <button class="delete-btn">Delete</button>
+                                           
+                                            <a href="deleteMembership.php?m_id=<?php echo $membership['m_id']?>" ><button class="delete-btn">Delete</button></a>
+
                                         </td>
                                     </tr>
                                 <?php endforeach; ?>

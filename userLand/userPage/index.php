@@ -180,7 +180,7 @@ if($result->num_rows > 0){
                 <p><strong>Email:</strong> <?php echo htmlspecialchars($row['email']); ?></p>
             </div>
             <div class="info-item">
-                <strong>Status:</strong> <span id="status">Active</span>
+               <p> <strong>Status:</strong> <?php echo htmlspecialchars($row['Status']); ?></p>
             </div>
             <div class="info-item">
             <p><strong>Membership: </strong><?php echo htmlspecialchars($m_type); ?></p>

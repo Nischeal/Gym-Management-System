@@ -220,14 +220,14 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 showRegisterLink.addEventListener('click', function(e) {
                     e.preventDefault();
                     loginForm.style.display = 'none';
-                    registerForm.style.display = 'block';
+                    registerForm.style.display = 'flex';
                 });
 
                 // Switch to Login form
                 showLoginLink.addEventListener('click', function(e) {
                     e.preventDefault();
                     registerForm.style.display = 'none';
-                    loginForm.style.display = 'block';
+                    loginForm.style.display = 'flex';
                 });
             });
         </script>

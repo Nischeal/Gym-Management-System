@@ -27,7 +27,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <!-- Header -->
     <header>
         <nav>
-        <a href="#" class="logo">
+        <a href="index.php" class="logo">
             <i class='bx bx-dumbbell'></i>
             <div class="logo-name"><span>Gym</span>Hero</div>
         </a>
