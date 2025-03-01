@@ -20,11 +20,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     $users = fetchUserByEmail($pdo, $email, $password);
 
-    // Prepare and execute the statement
+ 
     $stmt = $pdo->prepare("SELECT * FROM users WHERE email = :email AND password = :password");
     $stmt->execute(['email' => $email, 'password' => md5($password)]); // Consider using password_hash() for better security
 
-    // Fetch the user information
     $users = $stmt->fetch(PDO::FETCH_ASSOC);
     
     if ($users) {
@@ -74,16 +73,16 @@ $stmt->execute();
 $result = $stmt->get_result();
 $membershipInfo = $result->fetch_assoc();
 
-// If the user has enrolled, calculate remaining days and add to the membershipInfo
+
 if ($membershipInfo) {
     $enroll_date = strtotime($membershipInfo['enrolled_at']);
-    $duration = $membershipInfo['duration']; // Assuming duration is in days
+    $duration = $membershipInfo['duration']; 
     $expiry_date = strtotime("+$duration days", $enroll_date);
-    $remaining_days = max(0, ceil(($expiry_date - time()) / (60 * 60 * 24))); // Calculate remaining days
-    $membershipInfo['remaining_days'] = $remaining_days; // Add remaining days to membership info
+    $remaining_days = max(0, floor(($expiry_date - time()) / (60 * 60 * 24)));  
+    $membershipInfo['remaining_days'] = $remaining_days; 
 }
 
-// Fetch all available membership plans
+// Fetch membership plans
 $stmt = $conn->prepare("SELECT * FROM memberships");
 $stmt->execute();
 $memberships = $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
@@ -114,7 +113,7 @@ $conn->close();
 
             <ul class="nav-links">
                 <li onclick="loadContent('profile')"><span>Profile</span></li>
-                <li onclick="loadContent('plan & pricing')"><span>Plans & pricing</span></li>
+                <li onclick="loadContent('plan')"><span>Plans & pricing</span></li>
                 <li onclick="loadContent('aboutUs')"><span>About us</span></li>
                 <li onclick="loadContent('Contact')"><span>Contact</span></li>
                 <li onclick="loadContent('settings')"><span>Settings</span></li>
@@ -136,7 +135,7 @@ $conn->close();
         </nav>
     </header>
 
-    <main class="main-container main-content">
+<main class="main-container main-content">
         <!-- profile  Section -->
 <div id="profile" class="content-section">
     <div class="profile-container">
@@ -169,7 +168,7 @@ $conn->close();
 </div>
 
         <!-- Membership Section -->
-<div id="plan & pricing" class="content-section" style="display: block;">
+<!-- <div id="plan & pricing" class="content-section" style="display: block;">
     <div class="container">
         <h2 class="plans-title">CHOOSE YOUR MEMBERSHIP PLAN</h2>
         <div class="plans">
@@ -198,26 +197,33 @@ $conn->close();
             <?php endforeach; ?>
         </div>
     </div>
-</div>
+</div> -->
 
 <!-- membership section after enroll -->
-<div class="pricing-section">
-    <?php if ($membershipInfo): ?>
+<div id="plan" class="content-section" style="display: none;">
+<div class="pricing-section" class="content-section" style="display: block;">
+    <?php if ($membershipInfo):
+        // $_SESSION['expiredMembership'] = false;
+
+        ?>
         <!-- Membership Plan Section (User is enrolled) -->
-        <div class="membership-plan">
+        <div class="membership-plan" >
             <h2>Your Membership Plan</h2>
-            <!-- <p><strong>Plan Type:</strong> <?php echo htmlspecialchars($membershipInfo['m_type']); ?></p> -->
-            <p><strong>Amount Paid:</strong> Rs. <?php echo htmlspecialchars($membershipInfo['amount']); ?></p>
+            
+            <p><strong>Amount:</strong> Rs. <?php echo htmlspecialchars($membershipInfo['amount']); ?></p>
             <p><strong>Remaining Days:</strong> <?php echo $membershipInfo['remaining_days']; ?> days</p>
 
-            <?php if ($membershipInfo['remaining_days'] === 0): ?>
+            <?php if ($membershipInfo['remaining_days'] <= 0):
+                //  $_SESSION['expiredMembership'] = true;
+                ?>
                 <p style="color: red;"><strong>Your membership has expired! Renew now.</strong></p>
-                <a href="renew.php" class="renew-button">Renew Membership</a>
-            <?php endif; ?>
-        </div>
+                <a href="index.php#plan" class="renew-button">Renew Membership</a>
+    <?php endif; ?>
+    </div>
+
     <?php else: ?>
-        <!-- Pricing Section (User is not enrolled) -->
-        <div id="plan & pricing" class="content-section" style="display: block;">
+        <!-- Pricing Section (User  not enrolled) -->
+        <div id="plan" class="content-section" style="display: block;">
             <div class="container">
                 <h2 class="plans-title">CHOOSE YOUR MEMBERSHIP PLAN</h2>
                 <div class="plans">
@@ -229,7 +235,7 @@ $conn->close();
                             <div class="features">
                                 <ul>
                                     <?php
-                                    // Assuming 'features' is a comma-separated string in the database
+                                    
                                     $features = explode(',', $membership['features']);
                                     foreach ($features as $feature) :
                                     ?>
@@ -244,6 +250,7 @@ $conn->close();
             </div>
         </div>
     <?php endif; ?>
+</div>
 </div>
 
 
@@ -346,30 +353,54 @@ $conn->close();
 
         <!-- Settings Section -->
         <div id="settings" class="content-section" style="display: none;">
+            <?php 
+        
+            $servername = "localhost";
+            $username = "root";
+            $password = "";
+            $dbname = "gym_management_system";
+            $conn = new mysqli($servername, $username, $password, $dbname);
+            if ($conn->connect_error) {
+                die("Connection Failed: " .$conn->connect_error);
+            } 
+            $userid =  $_SESSION['u_id'];
+            $sql="SELECT * FROM users WHERE u_id =$userid";
+            $result = $conn->query($sql);
+            if($result->num_rows > 0){
+                $row = $result->fetch_assoc();
+            }
+            ?>
             <div class="settings-container">
                 <h2 class="section-title">Settings</h2>
-                <form action="update_settings.php" method="POST">
+                <form action="process_enrollment.php" method="POST">
                     <label for="fullname" class="settings__label">Full Name</label>
                     <div class="settings__box">
-                        <input type="text" id="fullname" name="fullname" class="settings__input" placeholder="Fullname" required>
+                        <input type="text" id="fullname" name="fullname" value="<?php echo $row['fullname']; ?>" class="settings__input" placeholder="Fullname" required>
                     </div>
                     <label for="address" class="settings__label">Address</label>
                     <div class="settings__box">
-                        <input type="text" id="address" name="address" class="settings__input" placeholder="Address" required>
+                        <input type="text" id="address" name="address" value="<?php echo $row['address']; ?>" class="settings__input" placeholder="Address" required>
                     </div>
                     <label for="phone" class="settings__label">Phone</label>
                     <div class="settings__box">
-                        <input type="number" id="phone" name="phone" class="settings__input" placeholder="Phone" required>
+                        <input type="number" id="phone" name="phone" value="<?php echo $row['ph_no']; ?>" class="settings__input" placeholder="Phone" required>
                     </div>
                     <label for="dob" class="settings__label">Date of Birth</label>
                     <div class="settings__box">
-                        <input type="date" id="dob" name="dob" class="settings__input" placeholder="DOB" required>
+                        <input type="date" id="dob" name="dob" value="<?php echo $row['DOB']; ?>" class="settings__input" placeholder="DOB" required>
+                    </div>
+                    <label for="status" class="settings__label">status</label>
+                    <div class="settings__box">
+                        <select name="status" id="status" >
+                            <option value="active">Active</option>
+                            <option value="inactive">in active</option>
+                        </select>
                     </div>
                     <button type="submit" class="settings__submit-btn">Submit</button>
                 </form>
             </div>
         </div>
-    </main>
+</main>
 
     <script src="index.js"></script>
 </body>

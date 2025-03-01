@@ -56,7 +56,7 @@ $memberships = fetchMemberships($pdo);
                     <h2 class="hero-subtitle">TRANSFORM YOUR LIFE</h2>
                     <p class="hero-text">Join GymHero and start your fitness journey today</p>
                     <div class="hero-buttons">
-                        <a href="../Form/login.php#register" class="cta-button primary">Get Started</a>
+                        <a href="Form/login.php" class="cta-button primary">Get Started</a>
                         
                     </div>
                     

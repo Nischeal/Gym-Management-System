@@ -49,7 +49,7 @@ function fetchDashboardStats($pdo) {
    
 
     // Fetch searches (example value, you might need to adjust this)
-    $stmt = $pdo->prepare("SELECT COUNT(*) AS enroll_count FROM enroll");
+    $stmt = $pdo->prepare("SELECT COUNT(*) AS enroll_count FROM members");
     $stmt->execute();
     $result = $stmt->fetch(PDO::FETCH_ASSOC);
     
@@ -59,7 +59,7 @@ function fetchDashboardStats($pdo) {
     
 
     // Fetch total sales (example value, you might need to adjust this)
-    $stmt = $pdo->prepare("SELECT SUM(AMOUNT) AS total_amt FROM enroll");
+    $stmt = $pdo->prepare("SELECT SUM(AMOUNT) AS total_amt FROM members");
     $stmt->execute();
     $result = $stmt->fetch(PDO::FETCH_ASSOC);
     

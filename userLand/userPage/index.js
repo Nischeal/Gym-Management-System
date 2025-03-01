@@ -49,3 +49,19 @@ function loadContent(sectionId) {
         }
     });
 }
+
+
+document.addEventListener("DOMContentLoaded", function () {
+    const renewButton = document.querySelector(".renew-button");
+    const planSection = document.getElementById("plan");
+
+    if (renewButton && planSection) {
+        renewButton.addEventListener("click", function (event) {
+            event.preventDefault(); // Prevent default jump
+            planSection.style.display = "block"; // Show the section
+            planSection.scrollIntoView({ behavior: "smooth" }); // Smooth scroll
+        });
+    }
+});
+
+

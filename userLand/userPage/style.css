@@ -668,3 +668,53 @@ nav .form-input {
     background: var(--dark);
 }
 
+/* planEnroll css */
+
+
+.membership-plan {
+    max-width: 400px;
+    margin: 20px auto;
+    padding: 20px;
+    background: var(--transparent);
+    border-radius: 12px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    backdrop-filter: blur(5px);
+}
+
+.membership-plan h2 {
+    font-size: 22px;
+    color: var(--light);
+    margin-bottom: 15px;
+}
+
+.membership-plan p {
+    font-size: 18px;
+    color: var(--light);
+    margin: 8px 0;
+}
+
+.membership-plan p strong {
+    color: var(--light);
+}
+
+.renew-button {
+    display: inline-block;
+    margin-top: 15px;
+    padding: 10px 15px;
+    background: #ff4d4d;
+    color: #fff;
+    text-decoration: none;
+    font-size: 16px;
+    border-radius: 8px;
+    transition: 0.3s ease;
+}
+
+.renew-button:hover {
+    background: #e60000;
+}
+
+.membership-plan p[style="color: red;"] {
+    font-size: 16px;
+    font-weight: bold;
+}

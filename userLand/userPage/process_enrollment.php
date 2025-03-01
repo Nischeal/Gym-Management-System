@@ -1,7 +1,7 @@
 <?php
 session_start();
 require ('db.php'); // Your database connection file
-print_r($_POST);
+// print_r($_POST);
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $u_id = $_POST['u_id'];
     $m_id = $_POST['m_id'];

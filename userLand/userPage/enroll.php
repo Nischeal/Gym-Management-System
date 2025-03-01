@@ -5,18 +5,18 @@ include('db.php');
 // print_r($_SESSION);
 // echo "</pre>";
 
-// Ensure user is logged in
+// user is logged in
 if (!isset($_SESSION['u_id'])) {
     die("Error: You must be logged in to enroll.");
 }
 
-// Get user details from session
+//  user details from session
 $u_id = $_SESSION['u_id'];
 
 $u_name = $_SESSION['fullname']; // Assuming you store the username in the session
 // $amouont = $_SESSION['amount'];
 
-// Get membership details from URL
+// membership details from URL
 $m_id = isset($_GET['m_id']) ? htmlspecialchars($_GET['m_id']) : 'N/A';
 $m_type = isset($_GET['m_type']) ? htmlspecialchars($_GET['m_type']) : 'N/A';
 $amount = isset($_GET['amount']) ? htmlspecialchars($_GET['amount']) : 'N/A';
