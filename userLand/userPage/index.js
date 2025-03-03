@@ -114,3 +114,46 @@ document.addEventListener('DOMContentLoaded', function() {
         return true;
     }
 });
+
+
+document.getElementById('settingsForm').addEventListener('submit', function (event) {
+    event.preventDefault(); 
+    // console.log('Form submission intercepted'); 
+
+    
+    const formData = new FormData(this);
+    console.log('Form data:', formData); 
+
+
+    fetch('update_profile.php', {
+        method: 'POST',
+        body: formData
+    })
+    .then(response => {
+        console.log('Response received:', response); 
+        return response.json();
+    })
+    .then(data => {
+        console.log('Parsed data:', data); 
+        if (data.success) {
+           e
+            alert('Profile updated successfully!');
+        } else {
+          
+            if (data.errors) {
+                for (const field in data.errors) {
+                    const errorElement = document.createElement('span');
+                    errorElement.className = 'error';
+                    errorElement.textContent = data.errors[field];
+                    document.getElementById(field).parentElement.appendChild(errorElement);
+                }
+            } else {
+                alert('Failed to update profile. Please try again.');
+            }
+        }
+    })
+    .catch(error => {
+        console.error('Error:', error); 
+        alert('An error occurred. Please try again.');
+    });
+});

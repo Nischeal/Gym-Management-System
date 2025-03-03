@@ -22,6 +22,8 @@ require('db.php');
 
 
 
+
+
 $memberships = fetchMemberships($pdo);
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
@@ -101,6 +103,7 @@ if ($membershipInfo) {
     $expiry_date = strtotime("+$duration days", $enroll_date);
     $remaining_days = max(0, floor(($expiry_date - time()) / (60 * 60 * 24)));  
     $membershipInfo['remaining_days'] = $remaining_days; 
+    $conn->query("UPDATE `members` SET `duration`='$remaining_days' WHERE u_id = $userid");
 }
 
 // Fetch membership plans
@@ -118,6 +121,110 @@ $stmt = $conn->prepare("
 ");
 $stmt->bind_param("s", $current_date);
 $stmt->execute();
+
+
+
+        
+$servername = "localhost";
+$username = "root";
+$password = "";
+$dbname = "gym_management_system";
+$conn = new mysqli($servername, $username, $password, $dbname);
+if ($conn->connect_error) {
+    die("Connection Failed: " .$conn->connect_error);
+} 
+$userid =  $_SESSION['u_id'];
+$sql="SELECT * FROM users WHERE u_id =$userid";
+$result = $conn->query($sql);
+if($result->num_rows > 0){
+    $row = $result->fetch_assoc();
+}
+
+
+
+
+if (isset($_POST['updateUser'])) {
+    $uid = $_SESSION['u_id'];
+    $name = $_POST['fullname'];
+    $address = $_POST['address'];
+    $phone = $_POST['phone'];
+    
+    
+
+
+    $DOB = $_POST['dob'];
+    $status = $_POST['status'];
+    $fullname = $address = $phone = $dob = $status = '';
+$errors = [];
+
+    if (isset($_POST['updateUser'])) {
+        // Validate Full Name
+        $fullname = trim($_POST['fullname']);
+        if (empty($fullname)) {
+            $errors['fullname'] = "Full Name is required.";
+        } elseif (!preg_match("/^[a-zA-Z ]*$/", $fullname)) {
+            $errors['fullname'] = "Full Name can only contain letters and white spaces.";
+        }
+    
+        // Validate Address
+        $address = trim($_POST['address']);
+        if (empty($address)) 
+            $errors['address'] = "Address is required.";
+        
+    
+        // Validate Phone Number
+        $phone = trim($_POST['phone']);
+        if (empty($phone)) {
+            $errors['phone'] = "Phone Number is required.";
+        } elseif (!preg_match("/^(98|97)\d{8}$/", $phone)) {
+            $errors['phone'] = "Phone Number must be 10 digits and start with 98 or 97.";
+        }
+    
+        // Validate Date of Birth
+        $dob = trim($_POST['dob']);
+        if (empty($dob)) {
+            $errors['dob'] = "Date of Birth is required.";
+        } else {
+            $today = new DateTime();
+            $birthdate = new DateTime($dob);
+            $age = $today->diff($birthdate)->y;
+    
+            if ($age < 13) {
+                $errors['dob'] = "You must be at least 13 years old.";
+            }
+        }
+    
+        // Validate Status
+        $status = trim($_POST['status']);
+        if (empty($status)) {
+            $errors['status'] = "Status is required.";
+        }
+    
+        // If there are no errors, update the user's information in the database
+        if (empty($errors)) {
+            $userid = $_SESSION['u_id'];
+            $query = "UPDATE users SET fullname = ?, address = ?, ph_no = ?, DOB = ?, Status = ? WHERE u_id = ?";
+            $stmt = $conn->prepare($query);
+            $stmt->bind_param("sssssi", $fullname, $address, $phone, $dob, $status, $userid);
+    
+            if ($stmt->execute()) {
+                $_SESSION['success_message'] = "Your profile has been updated successfully!";
+                header("Location: index.php");
+                exit;
+            } else {
+                $errors['database'] = "Failed to update profile. Please try again.";
+            }
+        }
+    }
+
+    
+   
+// header('Content-Type: application/json');
+// echo json_encode($response);    
+}
+
+
+
 
 $stmt->close();
 ?>
@@ -195,13 +302,13 @@ if($result->num_rows > 0){
             <p><strong>Phone no.:</strong> <?php echo isset($row['ph_no']) ? htmlspecialchars($row['ph_no']) : 'N/A'; ?></p>
             </div>
             <div class="info-item">
-                <p><strong>Email:</strong> <?php echo htmlspecialchars($row['email']); ?></p>
+                <p><strong>Email:</strong> <?php echo isset($row['email']) ? htmlspecialchars($row['email']) : 'N/A'; ?></p>
             </div>
             <div class="info-item">
-               <p> <strong>Status:</strong> <?php echo htmlspecialchars($row['Status']); ?></p>
+               <p> <strong>Status:</strong> <?php echo isset($row['Status']) ? htmlspecialchars($row['Status']) : 'N/A'; ?></p>
             </div>
             <div class="info-item">
-            <p><strong>Membership: </strong><?php echo htmlspecialchars($m_type); ?></p>
+            <p><strong>Membership: </strong><?php echo isset($m_type) ? htmlspecialchars($m_type) : 'N/A'; ?></p>
             </div>
         </div>
     </div>
@@ -352,77 +459,37 @@ if($result->num_rows > 0){
 
         <!-- Settings Section -->
         <div id="settings" class="content-section" style="display: none;">
-            <?php 
-        
-            $servername = "localhost";
-            $username = "root";
-            $password = "";
-            $dbname = "gym_management_system";
-            $conn = new mysqli($servername, $username, $password, $dbname);
-            if ($conn->connect_error) {
-                die("Connection Failed: " .$conn->connect_error);
-            } 
-            $userid =  $_SESSION['u_id'];
-            $sql="SELECT * FROM users WHERE u_id =$userid";
-            $result = $conn->query($sql);
-            if($result->num_rows > 0){
-                $row = $result->fetch_assoc();
-            }
-
-          
-
-
-            if (isset($_POST['updateUser'])) {
-                $uid = $_SESSION['u_id'];
-                $name = $_POST['fullname'];
-                $address = $_POST['address'];
-                $phone = $_POST['phone'];
-                
-                
-
-
-                $DOB = $_POST['dob'];
-                $status = $_POST['status'];
-
-                if (preg_match('/^(98|97)\d{8}$/', $phone)) {
-                    
-                    $query = "UPDATE `users` SET `fullname`='$name',`address`='$address',`DOB`='$DOB',`ph_no`='$phone',`Status`='$status' WHERE `u_id`=$uid";
-
-                    if ($conn->query($query) === TRUE) {
-                        echo "User updated successfully";
-                        
-                    } else {
-                        echo "Error: " . $query . "<br>" . $conn->error;
-                        }
-                } else {
-                    echo "Invalid phone number!";
-                   
-                }
-
-                   
-            }
-
-
-        
-            ?>
+           
             <div class="settings-container" >
                 <h2 class="section-title">Settings</h2>
-                <form action="" method="POST" novalidate >
+                <form action="" method="POST" id="settingForm" novalidate >
                     <label for="fullname" class="settings__label">Full Name</label>
                     <div class="settings__box">
                         <input type="text" id="fullname" name="fullname" value="<?php echo $row['fullname']; ?>" class="settings__input" placeholder="Fullname" >
+                        <?php if (isset($errors['fullname'])): ?>
+            <span class="error"><?php echo $errors['fullname']; ?></span>
+        <?php endif; ?>
                     </div>
                     <label for="address" class="settings__label">Address</label>
                     <div class="settings__box">
                         <input type="text" id="address" name="address" value="<?php echo $row['address']; ?>" class="settings__input" placeholder="Address" >
+                        <?php if (isset($errors['address'])): ?>
+            <span class="error"><?php echo $errors['address']; ?></span>
+        <?php endif; ?>
                     </div>
                     <label for="phone" class="settings__label">Phone</label>
                     <div class="settings__box">
-                        <input type="number" id="phone" name="phone" value="<?php echo $row['ph_no']; ?>" class="settings__input" placeholder="Phone" >
+                        <input type="number" id="phone" name="phone" value="<?php echo $row['ph_no']; ?>" class="settings__input" placeholder="Phone">
+                        <?php if (isset($errors['phone'])): ?>
+            <span class="error"><?php echo $errors['phone']; ?></span>
+        <?php endif; ?>
                     </div>
                     <label for="dob" class="settings__label">Date of Birth</label>
                     <div class="settings__box">
                         <input type="date" id="dob" name="dob" value="<?php echo $row['DOB']; ?>" class="settings__input" placeholder="DOB" >
+                        <?php if (isset($errors['dob'])): ?>
+            <span class="error"><?php echo $errors['dob']; ?></span>
+        <?php endif; ?>
                     </div>
                     <label for="status" class="settings__label">status</label>
                     <div class="settings__box">
@@ -431,7 +498,7 @@ if($result->num_rows > 0){
                             <option value="inactive">in active</option>
                         </select>
                     </div>
-                    <button type="submit" name="updateUser" class="settings__submit-btn">Submit</button>
+                    <button type="submit" name="updateUser" class="settings__submit-btn">Save</button>
                 </form>
             </div>
         </div>

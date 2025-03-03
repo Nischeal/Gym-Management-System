@@ -137,7 +137,7 @@ $stmt->close();
         <input type="hidden" name="m_id" value="<?php echo $m_id; ?>">
         
       
-        <a href="index.php"><button type="submit">Confirm Enrollment</button></a>
+        <a href="/index.php"><button type="submit">Confirm Enrollment</button></a>
     </form>
 </div>
 

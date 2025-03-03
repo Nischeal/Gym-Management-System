@@ -619,9 +619,10 @@ nav .form-input {
 
 /* settings css */
 .settings__box {
-    position: relative;
+    /* position: relative; */
     display: flex;
-    align-items: center;
+    flex-direction: column;
+    /* align-items: center; */
     background-color: var(--container-color);
     border-radius: 1rem;
     width: 500px;
@@ -668,6 +669,12 @@ nav .form-input {
     background: var(--dark);
 }
 
+.error {
+    display: block; /* Make the span behave like a block-level element */
+    color: red;
+    font-size: 0.9em;
+    margin-top: 5px; /* Add some spacing above the error message */
+}
 /* planEnroll css */
 
 
