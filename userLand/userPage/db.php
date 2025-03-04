@@ -25,7 +25,7 @@ function fetchUserByEmail($pdo, $email, $password) {
     $users = $stmt->fetch(PDO::FETCH_ASSOC);
     
     // Check if the user exists and verify the password
-    if ($users && password_verify($password) === $users['password']) {
+    if ($users && md5($password) === $users['password']) { //erroe when useing password_verify
 
         return $users; // Return user data if password matches
     }
@@ -43,7 +43,7 @@ function fetchMemberships($pdo) {
 if (isset($_SESSION['u_id'])) {
     $u_id = $_SESSION['u_id'];  // Get user ID from session
 
-    // Query to get membership details for the logged-in user
+    // Query to get membership details 
     $stmt = $conn->prepare("
         SELECT m.m_type, m.amount 
         FROM members mem

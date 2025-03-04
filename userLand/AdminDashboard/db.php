@@ -67,4 +67,20 @@ function fetchDashboardStats($pdo) {
     
     return $stats;
 }
+
+function fetchTrainerName($trainers, $trainerId) {
+    foreach ($trainers as $trainer) {
+        if ($trainer['t_id'] == $trainerId) {
+            return $trainer['fullname'];
+        }
+    }
+ 
+}
+
+// function fetchMemberships($pdo) {
+//     $stmt = $pdo->prepare("SELECT * FROM memberships");
+//     $stmt->execute();
+//     return $stmt->fetchAll(PDO::FETCH_ASSOC);
+// }
+
 ?>

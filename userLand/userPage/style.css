@@ -362,6 +362,11 @@ nav .form-input {
 
 
 /* mmembership plan */
+#large{
+    color: var(--light-success);
+    font-size: 2rem;
+}
+
 .container {
     margin-top: 8rem;
     display: flex;

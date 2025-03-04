@@ -37,6 +37,7 @@ $stmt->close();
 
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -54,7 +55,7 @@ $stmt->close();
 
         .card {
             background-color: rgba(81, 81, 85, 0.226);
-            
+
             width: 400px;
             padding: 20px;
             border-radius: 8px;
@@ -92,7 +93,7 @@ $stmt->close();
         }
 
         .card button {
-            background-color:rgb(33, 118, 230);
+            background-color: rgb(33, 118, 230);
             color: white;
             border: none;
             padding: 10px 20px;
@@ -103,44 +104,45 @@ $stmt->close();
         }
 
         .card button:hover {
-            background-color:rgb(38, 39, 38);
+            background-color: rgb(38, 39, 38);
         }
     </style>
 </head>
+
 <body>
 
-<div class="card">
-    <h2>Confirm Your Membership</h2>
-    <form action="process_enrollment.php" method="post">
-        <div class="detail">
-            <label for="u_id">User ID:</label>
-            <input type="text" id="u_id" name="u_id" value="<?php echo $u_id; ?>" readonly>
-        </div>
+    <div class="card">
+        <h2>Confirm Your Membership</h2>
+        <form action="process_enrollment.php" method="post">
+            <div class="detail">
+                <label for="u_id">User ID:</label>
+                <input type="text" id="u_id" name="u_id" value="<?php echo $u_id; ?>" readonly>
+            </div>
 
-        <div class="detail">
-            <label for="u_name">Name:</label>
-            <input type="text" id="u_name" name="u_name" value="<?php echo $u_name; ?>" readonly>
-        </div>
+            <div class="detail">
+                <label for="u_name">Name:</label>
+                <input type="text" id="u_name" name="u_name" value="<?php echo $u_name; ?>" readonly>
+            </div>
 
-        <div class="detail">
-            <label for="m_type">Membership Type:</label>
-            <input type="hidden" name="duration" value="<?php echo isset($_GET['duration']) ? $_GET['duration'] : 0; ?>">
-            <input type="text" id="m_type" name="m_type" value="<?php echo $m_type; ?>" readonly>
-        </div>
+            <div class="detail">
+                <label for="m_type">Membership Type:</label>
+                <input type="hidden" name="duration" value="<?php echo isset($_GET['duration']) ? $_GET['duration'] : 0; ?>">
+                <input type="text" id="m_type" name="m_type" value="<?php echo $m_type; ?>" readonly>
+            </div>
 
-        <div class="detail">
-            <label for="amount">Amount:</label>
-            <input type="text" id="amount" name="amount" value="<?php echo $amount; ?>" readonly>
-        </div>
+            <div class="detail">
+                <label for="amount">Amount:</label>
+                <input type="text" id="amount" name="amount" value="<?php echo $amount; ?>" readonly>
+            </div>
 
-        <!-- Hidden field for m_id -->
-        <input type="hidden" name="m_id" value="<?php echo $m_id; ?>">
-        
-      
-        <a href="/index.php"><button type="submit">Confirm Enrollment</button></a>
-    </form>
-</div>
+            <!-- Hidden field for m_id -->
+            <input type="hidden" name="m_id" value="<?php echo $m_id; ?>">
+
+
+            <a href="index.php"><button type="submit">Confirm Enrollment</button></a>
+        </form>
+    </div>
 
 </body>
-</html>
 
+</html>

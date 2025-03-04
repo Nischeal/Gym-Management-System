@@ -2,17 +2,24 @@
 session_start();
 require 'db.php';
 
+// print_r($_SESSION);
+
 // Initialize error messages
 $errors = [];
 $login_errors = [];
 $response = ['success' => false, 'errors' => []];
 $form  = 'login';
+
+// if (!isset($_SESSION['log']) || $_SESSION['log'] !== true || $_SESSION['role'] = $row['role']) {
+//     echo "<script>alert('Login Required');</script>";
+//     echo '<meta http-equiv="refresh" content="0; url=../Form/login.php"/>';
+//     exit();
+// }
+
 // Check if the form is submitted
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     if (isset($_POST['register'])) {
         $form = 'register';
-        // Debugging: Log that the register form was submitted
-        error_log("Register form submitted");
 
         // Validate Full Name
         $fullname = trim($_POST['fullname']);
@@ -66,9 +73,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $response['errors'] = $errors;
         }
     } elseif (isset($_POST['login'])) {
-        // Debugging: Log that the login form was submitted
-        error_log("Login form submitted");
-
         // Validate Login Email
         $login_email = trim($_POST['login_email']);
         if (empty($login_email)) {
@@ -85,56 +89,42 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
         // If there are no login errors, proceed with login
         if (empty($login_errors)) {
-            $_SESSION['log'] = true;
-            // Fetch user details
+            // Fetch user details based on email
             $stmt = $pdo->prepare("SELECT * FROM users WHERE email = ?");
             $stmt->execute([$login_email]);
             $user = $stmt->fetch(PDO::FETCH_ASSOC);
-        
-            // Fetch admin details
-            $stmt = $pdo->prepare("SELECT * FROM admin WHERE email = ?");
-            $stmt->execute([$login_email]);
-            $admin = $stmt->fetch(PDO::FETCH_ASSOC);
-        
+
+            // Check if user exists and password is correct
             if ($user && password_verify($login_password, $user['password'])) {
                 $_SESSION['email'] = $user['email'];
                 $_SESSION['password'] = $user['password'];
                 $_SESSION['u_id'] = $user['u_id'];
-
+                $_SESSION['role'] = $user['role'];
+                // $_SESSION['log'] = true;
+                
                 $_SESSION['DOB'] = $user['DOB'];
                 $_SESSION['address'] = $user['address'];
                 $_SESSION['ph_no'] = $user['ph_no'];
                 $_SESSION['fullname'] = $user['fullname'];
-                header("Location: ../userPage/index.php");
-                exit;
-            } 
-            
-            // Use md5() comparison for admin since password is stored in MD5 format
-            if ($admin && md5($login_password) === $admin['password']) {
-                
-                $_SESSION['email'] = $admin['email'];
-              
-                header("Location: ../AdminDashboard/index.php");
-                exit;
-            }
-        
-            $login_errors['login'] = "Invalid email or password";
-        }
-        
-        
 
+                // Redirect based on role
+                if ($user['role'] == 'admin') {
+                    header("Location: ../adminDashboard/index.php"); // Admin dashboard
+                    exit();
+                } else {
+                    header("Location: ../userPage/index.php"); // User dashboard
+                    exit();
+                }
+            } else {
+                $login_errors['login'] = "Invalid email or password";
+            }
+        }
+
+        // If there are login errors, populate them
         if (!empty($login_errors)) {
             $response['errors'] = $login_errors;
         }
     }
-
-    // Debugging: Log the response being sent back
-    // error_log("Response: " . json_encode($response));
-
-    // Return JSON response
-    // header('Content-Type: application/json');
-    // echo json_encode($response);
-    // exit;
 }
 ?>
 
@@ -173,7 +163,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         </form>
 
         <!-- Register Form -->
-        <form id="registerForm" class="register-form" method="POST" action=""  novalidate style="display: none;">
+        <form id="registerForm" class="register-form" method="POST" action="" novalidate style="display: none;">
             <h1>Register</h1>
             <div class="form-group">
                 <label for="registerName">Full Name</label>
@@ -203,6 +193,14 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     <p class='error'><?php echo $errors['confirm_password']; ?></p>
                 <?php endif; ?>
             </div>
+
+            <!-- <div class="form-group">
+            <label for="role">role</label>
+            <select name="role" id="">
+                <option value="user">User</option>
+                <option value="admin">Admin</option>
+            </select>
+            </div>     -->
             <button type="submit" class="login-btn" name="register">Register</button>
             <p class="register-link">Already have an account? <a href="#" id="showLogin">Login</a></p>
             <?php if (isset($_SESSION['success'])): ?>

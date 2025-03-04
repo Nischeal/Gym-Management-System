@@ -945,3 +945,62 @@ nav {
 .settings__submit-btn:hover {
     background: var(--dark);
 }
+
+/* Admin settings */
+.settings__box {
+    /* position: relative; */
+    display: flex;
+    flex-direction: column;
+    /* align-items: center; */
+    background-color: var(--container-color);
+    border-radius: 1rem;
+    width: 500px;
+    margin-bottom: 10px;
+  }
+  
+  .settings__input {
+    width: 100%;
+    padding: 1rem 2rem 1rem 1rem;
+    font-weight: var(--font-semi-bold);
+    border: 3px solid transparent;
+    border-radius: 1rem;
+    z-index: 1;
+    transition: border-color .4s;
+  }
+  
+  .settings__input:autofill {
+    transition: background-color 6000s, color 6000s;
+  }
+  
+  .settings__label {
+    /* position: absolute; */
+    font-weight: var(--font-semi-bold);
+    transition: transform .4s, font-size .4s, color .4s;
+    color: var(--light);
+    z-index: 100;
+  }
+  .settings__submit-btn {
+    width: 100%;
+    padding: 1rem;
+    background: var(--primary);
+    color: var(--light);
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background 0.3s;
+    font-size: 1rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    margin-top: 1rem;
+}
+
+.settings__submit-btn:hover {
+    background: var(--dark);
+}
+
+.error {
+    display: block; /* Make the span behave like a block-level element */
+    color: red;
+    font-size: 0.9em;
+    margin-top: 5px; /* Add some spacing above the error message */
+}

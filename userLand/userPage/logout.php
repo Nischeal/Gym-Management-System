@@ -5,5 +5,5 @@ session_unset();
 
 session_destroy();
 
-header('Location: ../Form/login.php ')
+header('Location: ../Form/login.php')
 ?>
