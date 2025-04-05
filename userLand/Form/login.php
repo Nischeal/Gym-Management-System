@@ -6,10 +6,11 @@ require 'db.php';
 $errors = [];
 $login_errors = [];
 $response = ['success' => false, 'errors' => []];
-
+$form  = 'login';
 // Check if the form is submitted
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     if (isset($_POST['register'])) {
+        $form = 'register';
         // Debugging: Log that the register form was submitted
         error_log("Register form submitted");
 
@@ -152,7 +153,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             <h1>Login</h1>
             <div class="form-group">
                 <label for="loginEmail">Email</label>
-                <input type="email" id="loginEmail" name="login_email" placeholder="Enter your email" value="<?php echo isset($login_email) ? htmlspecialchars($login_email) : ''; ?>" required>
+                <input type="email" id="loginEmail" name="login_email" placeholder="Enter your email" value="<?php echo isset($login_email) ? htmlspecialchars($login_email) : ''; ?>" >
                 <?php if (isset($login_errors['login_email'])): ?>
                     <p class='error'><?php echo $login_errors['login_email']; ?></p>
                 <?php endif; ?>
@@ -162,7 +163,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             </div>
             <div class="form-group">
                 <label for="loginPassword">Password</label>
-                <input type="password" id="loginPassword" name="login_password" placeholder="Enter your password" required>
+                <input type="password" id="loginPassword" name="login_password" placeholder="Enter your password" >
                 <?php if (isset($login_errors['login_password'])): ?>
                     <p class='error'><?php echo $login_errors['login_password']; ?></p>
                 <?php endif; ?>
@@ -172,32 +173,32 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         </form>
 
         <!-- Register Form -->
-        <form id="registerForm" class="register-form" method="POST" action="" style="display: none;">
+        <form id="registerForm" class="register-form" method="POST" action=""  novalidate style="display: none;">
             <h1>Register</h1>
             <div class="form-group">
                 <label for="registerName">Full Name</label>
-                <input type="text" id="registerName" name="fullname" placeholder="Enter your full name" value="<?php echo isset($fullname) ? htmlspecialchars($fullname) : ''; ?>" required>
+                <input type="text" id="registerName" name="fullname" placeholder="Enter your full name" value="<?php echo isset($fullname) ? htmlspecialchars($fullname) : ''; ?>" >
                 <?php if (isset($errors['fullname'])): ?>
                     <p class='error'><?php echo $errors['fullname']; ?></p>
                 <?php endif; ?>
             </div>
             <div class="form-group">
                 <label for="registerEmail">Email</label>
-                <input type="email" id="registerEmail" name="email" placeholder="Enter your email" value="<?php echo isset($email) ? htmlspecialchars($email) : ''; ?>" required>
+                <input type="email" id="registerEmail" name="email" placeholder="Enter your email" value="<?php echo isset($email) ? htmlspecialchars($email) : ''; ?>" >
                 <?php if (isset($errors['email'])): ?>
                     <p class='error'><?php echo $errors['email']; ?></p>
                 <?php endif; ?>
             </div>
             <div class="form-group">
                 <label for="registerPassword">Password</label>
-                <input type="password" id="registerPassword" name="password" placeholder="Enter your password" required>
+                <input type="password" id="registerPassword" name="password" placeholder="Enter your password" >
                 <?php if (isset($errors['password'])): ?>
                     <p class='error'><?php echo $errors['password']; ?></p>
                 <?php endif; ?>
             </div>
             <div class="form-group">
                 <label for="confirmPassword">Confirm Password</label>
-                <input type="password" id="confirmPassword" name="confirm_password" placeholder="Confirm your password" required>
+                <input type="password" id="confirmPassword" name="confirm_password" placeholder="Confirm your password" >
                 <?php if (isset($errors['confirm_password'])): ?>
                     <p class='error'><?php echo $errors['confirm_password']; ?></p>
                 <?php endif; ?>
@@ -210,27 +211,40 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         </form>
 
         <script>
-            document.addEventListener('DOMContentLoaded', function() {
-                const loginForm = document.getElementById('loginForm');
-                const registerForm = document.getElementById('registerForm');
-                const showRegisterLink = document.getElementById('showRegister');
-                const showLoginLink = document.getElementById('showLogin');
+    let form = "<?php echo $form; ?>";
 
-                // Switch to Register form
-                showRegisterLink.addEventListener('click', function(e) {
-                    e.preventDefault();
-                    loginForm.style.display = 'none';
-                    registerForm.style.display = 'flex';
-                });
+    document.addEventListener('DOMContentLoaded', function() {
+        const loginForm = document.getElementById('loginForm');
+        const registerForm = document.getElementById('registerForm');
 
-                // Switch to Login form
-                showLoginLink.addEventListener('click', function(e) {
-                    e.preventDefault();
-                    registerForm.style.display = 'none';
-                    loginForm.style.display = 'flex';
-                });
-            });
-        </script>
+        // Show the appropriate form based on PHP value
+        if (form === 'register') {
+            loginForm.style.display = 'none';
+            registerForm.style.display = 'flex';
+        } else {
+            registerForm.style.display = 'none';
+            loginForm.style.display = 'flex';
+        }
+
+        const showRegisterLink = document.getElementById('showRegister');
+        const showLoginLink = document.getElementById('showLogin');
+
+        // Switch to Register form
+        showRegisterLink.addEventListener('click', function(e) {
+            e.preventDefault();
+            loginForm.style.display = 'none';
+            registerForm.style.display = 'flex';
+        });
+
+        // Switch to Login form
+        showLoginLink.addEventListener('click', function(e) {
+            e.preventDefault();
+            registerForm.style.display = 'none';
+            loginForm.style.display = 'flex';
+        });
+    });
+</script>
+
     </div>
 </body>
 </html>

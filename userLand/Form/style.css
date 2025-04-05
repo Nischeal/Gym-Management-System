@@ -20,7 +20,8 @@
 }
 
 body {
-    background-image: url(GYMBG.jpg);
+    background-color: var(--black) ;
+    /* background-image: url(GYMBG.jpg); */
     background-size: cover;
     margin: 0;
     padding: 0;
@@ -28,8 +29,8 @@ body {
     justify-content: center;
     align-items: center;
     min-height: 100vh;
-    background-color: #f0f2f5;
-    font-family: Arial, sans-serif;
+    
+
 }
 
 .login-container {

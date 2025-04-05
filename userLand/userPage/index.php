@@ -7,17 +7,18 @@ require('db.php');
             $username = "root";
             $password = "";
             $dbname = "gym_management_system";
+            
+            
             $conn = new mysqli($servername, $username, $password, $dbname);
             if ($conn->connect_error) {
                 die("Connection Failed: " .$conn->connect_error);
             } 
 
-if(!isset($_SESSION['log'])){
-    echo "<script>alert('Login Required')</script>";
-  
-    echo '<meta http-equiv = "refresh" content = "0; url = ../Form/login.php"/>';
-}
-
+            if (!isset($_SESSION['log'])) {
+                echo "<script>alert('Login Required');</script>";
+                echo '<meta http-equiv="refresh" content="0; url=../Form/login.php"/>';
+                exit();
+            }
 
 
 
@@ -87,6 +88,13 @@ $result = $stmt->get_result();
 $membershipInfo = $result->fetch_assoc();
 
 
+$userid = $_SESSION['u_id'];
+$stmt = $conn->prepare("SELECT amount, enrolled_at, duration FROM members WHERE u_id = ?");
+$stmt->bind_param("i", $userid);
+$stmt->execute();
+$result = $stmt->get_result();
+$membershipInfo = $result->fetch_assoc();
+
 if ($membershipInfo) {
     $enroll_date = strtotime($membershipInfo['enrolled_at']);
     $duration = $membershipInfo['duration']; 
@@ -100,8 +108,18 @@ $stmt = $conn->prepare("SELECT * FROM memberships");
 $stmt->execute();
 $memberships = $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
 
-$stmt->close();
 
+
+// Delete expired memberships
+$current_date = date('Y-m-d H:i:s');
+$stmt = $conn->prepare("
+    DELETE FROM members
+    WHERE DATE_ADD(enrolled_at, INTERVAL duration DAY) < ?
+");
+$stmt->bind_param("s", $current_date);
+$stmt->execute();
+
+$stmt->close();
 ?>
 
 
@@ -189,89 +207,48 @@ if($result->num_rows > 0){
     </div>
 </div>
 
-        <!-- Membership Section -->
-<!-- <div id="plan & pricing" class="content-section" style="display: block;">
-    <div class="container">
-        <h2 class="plans-title">CHOOSE YOUR MEMBERSHIP PLAN</h2>
-        <div class="plans">
-            <?php foreach ($memberships as $membership) : ?>
-                <div class="plan">
-                    <h2><?php echo htmlspecialchars($membership['m_type']); ?></h2>
-                    <input type="hidden" name="duration" value="<?php $membership['duration'] ?>">
-                    <div class="price">Rs. <?php echo htmlspecialchars($membership['amount']); ?></div>
-                    <div class="features">
-                        <ul>
-                            <?php
-                            // Assuming 'features' is a comma-separated string in the database
-                            $features = explode(',', $membership['features']);
-                            foreach ($features as $feature) :
-                            ?>
-                                <li><?php echo htmlspecialchars(trim($feature)); ?></li>
-                            <?php endforeach; ?>
-                        </ul>
-                    </div>
-                    <?php   
-                    
-                    ?>
-                   <a href="enroll.php?m_id=<?php echo $membership['m_id']; ?> &m_type=<?php echo $membership['m_type']; ?> &amount=<?php echo $membership['amount']; ?> &duration=<?php echo $membership['duration']; ?>" class="enroll-button">ENROLL NOW</a>
 
-                </div>
-            <?php endforeach; ?>
-        </div>
-    </div>
-</div> -->
 
 <!-- membership section after enroll -->
 <div id="plan" class="content-section" style="display: none;">
 <div class="pricing-section" class="content-section" style="display: block;">
-    <?php if ($membershipInfo):
-        // $_SESSION['expiredMembership'] = false;
 
-        ?>
-        <!-- Membership Plan Section (User is enrolled) -->
-        <div class="membership-plan" >
-            <h2>Your Membership Plan</h2>
             
-            <p><strong>Amount:</strong> Rs. <?php echo htmlspecialchars($membershipInfo['amount']); ?></p>
-            <p><strong>Remaining Days:</strong> <?php echo $membershipInfo['remaining_days']; ?> days</p>
-
-            <?php if ($membershipInfo['remaining_days'] <= 0):
-                //  $_SESSION['expiredMembership'] = true;
-                ?>
-                <p style="color: red;"><strong>Your membership has expired! Renew now.</strong></p>
-                <a href="index.php#plan" class="renew-button">Renew Membership</a>
-    <?php endif; ?>
+<?php if ($membershipInfo && $membershipInfo['remaining_days'] > 0): ?>
+    <!-- Membership Plan Section (User is enrolled and membership is active) -->
+    <div class="membership-plan">
+        <h2>Your Membership Plan</h2>
+        <p><strong>Amount:</strong> Rs. <?php echo htmlspecialchars($membershipInfo['amount']); ?></p>
+        <p><strong>Remaining Days:</strong> <?php echo $membershipInfo['remaining_days']; ?> days</p>
     </div>
-
-    <?php else: ?>
-        <!-- Pricing Section (User  not enrolled) -->
-        <div id="plan" class="content-section" style="display: block;">
-            <div class="container">
-                <h2 class="plans-title">CHOOSE YOUR MEMBERSHIP PLAN</h2>
-                <div class="plans">
-                    <?php foreach ($memberships as $membership) : ?>
-                        <div class="plan">
-                            <h2><?php echo htmlspecialchars($membership['m_type']); ?></h2>
-                            <input type="hidden" name="duration" value="<?php echo $membership['duration']; ?>">
-                            <div class="price">Rs. <?php echo htmlspecialchars($membership['amount']); ?></div>
-                            <div class="features">
-                                <ul>
-                                    <?php
-                                    
-                                    $features = explode(',', $membership['features']);
-                                    foreach ($features as $feature) :
-                                    ?>
-                                        <li><?php echo htmlspecialchars(trim($feature)); ?></li>
-                                    <?php endforeach; ?>
-                                </ul>
-                            </div>
-                            <a href="enroll.php?m_id=<?php echo $membership['m_id']; ?>&m_type=<?php echo $membership['m_type']; ?>&amount=<?php echo $membership['amount']; ?>&duration=<?php echo $membership['duration']; ?>" class="enroll-button">ENROLL NOW</a>
+<?php else: ?>
+    <!-- Pricing Section (User not enrolled or membership has expired) -->
+    <div id="plan" class="content-section" style="display: block;">
+        <div class="container">
+            <h2 class="plans-title">CHOOSE YOUR MEMBERSHIP PLAN</h2>
+            <div class="plans">
+                <?php foreach ($memberships as $membership) : ?>
+                    <div class="plan">
+                        <h2><?php echo htmlspecialchars($membership['m_type']); ?></h2>
+                        <input type="hidden" name="duration" value="<?php echo $membership['duration']; ?>">
+                        <div class="price">Rs. <?php echo htmlspecialchars($membership['amount']); ?></div>
+                        <div class="features">
+                            <ul>
+                                <?php
+                                $features = explode(',', $membership['features']);
+                                foreach ($features as $feature) :
+                                ?>
+                                    <li><?php echo htmlspecialchars(trim($feature)); ?></li>
+                                <?php endforeach; ?>
+                            </ul>
                         </div>
-                    <?php endforeach; ?>
-                </div>
+                        <a href="enroll.php?m_id=<?php echo $membership['m_id']; ?>&m_type=<?php echo $membership['m_type']; ?>&amount=<?php echo $membership['amount']; ?>&duration=<?php echo $membership['duration']; ?>" class="enroll-button">ENROLL NOW</a>
+                    </div>
+                <?php endforeach; ?>
             </div>
         </div>
-    <?php endif; ?>
+    </div>
+<?php endif; ?>
 </div>
 </div>
 
@@ -428,24 +405,24 @@ if($result->num_rows > 0){
 
         
             ?>
-            <div class="settings-container">
+            <div class="settings-container" >
                 <h2 class="section-title">Settings</h2>
-                <form action="" method="POST">
+                <form action="" method="POST" novalidate >
                     <label for="fullname" class="settings__label">Full Name</label>
                     <div class="settings__box">
-                        <input type="text" id="fullname" name="fullname" value="<?php echo $row['fullname']; ?>" class="settings__input" placeholder="Fullname" required>
+                        <input type="text" id="fullname" name="fullname" value="<?php echo $row['fullname']; ?>" class="settings__input" placeholder="Fullname" >
                     </div>
                     <label for="address" class="settings__label">Address</label>
                     <div class="settings__box">
-                        <input type="text" id="address" name="address" value="<?php echo $row['address']; ?>" class="settings__input" placeholder="Address" required>
+                        <input type="text" id="address" name="address" value="<?php echo $row['address']; ?>" class="settings__input" placeholder="Address" >
                     </div>
                     <label for="phone" class="settings__label">Phone</label>
                     <div class="settings__box">
-                        <input type="number" id="phone" name="phone" value="<?php echo $row['ph_no']; ?>" class="settings__input" placeholder="Phone" required>
+                        <input type="number" id="phone" name="phone" value="<?php echo $row['ph_no']; ?>" class="settings__input" placeholder="Phone" >
                     </div>
                     <label for="dob" class="settings__label">Date of Birth</label>
                     <div class="settings__box">
-                        <input type="date" id="dob" name="dob" value="<?php echo $row['DOB']; ?>" class="settings__input" placeholder="DOB" required>
+                        <input type="date" id="dob" name="dob" value="<?php echo $row['DOB']; ?>" class="settings__input" placeholder="DOB" >
                     </div>
                     <label for="status" class="settings__label">status</label>
                     <div class="settings__box">

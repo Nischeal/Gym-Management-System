@@ -117,7 +117,7 @@ $memberships = fetchMemberships($pdo);
                             <?php endforeach; ?>
                         </ul>
                     </div>
-                    <a href="../Form/login.php" class="enroll-button">ENROLL NOW</a>
+                    <a href="Form/login.php" class="enroll-button">ENROLL NOW</a>
                 </div>
             <?php endforeach; ?>
         </div>
